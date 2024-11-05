@@ -1,0 +1,66 @@
+/* Artists.css */
+.artists-page {
+    padding: 20px;
+    text-align: center;
+}
+
+.artist-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.artist-item {
+    background-color: #1a1a1a;
+    padding: 16px;
+    border-radius: 8px;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.artist-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.artist-bio {
+    font-size: 14px;
+    color: #d1c4e9;
+    margin-top: 10px;
+}
+
+.listen-now {
+    background-color: #6a1b9a;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+}
+
+.listen-now:hover {
+    background-color: #834a8b;
+}
+
+#music-player-section {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid #6a1b9a;
+}
+
+#music-player-container {
+    text-align: center;
+}
+
+#now-playing-text {
+    font-size: 18px;
+    color: #d1c4e9;
+    margin-top: 10px;
+}

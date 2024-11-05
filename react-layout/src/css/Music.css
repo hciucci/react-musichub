@@ -1,0 +1,109 @@
+/* Music.css */
+
+/* Basic styling for the music page */
+.music-page {
+    padding: 40px;
+    max-width: 1200px;
+    margin: auto;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.music-page h2 {
+    text-align: center;
+    color: #6a1b9a; /* Accent color */
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+/* Music list layout */
+.music-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Individual music item styling */
+.music-item {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+}
+
+.music-item:hover {
+    transform: translateY(-5px);
+}
+
+/* Album cover image */
+.music-item img {
+    width: 100%;
+    height: auto;
+    border-bottom: 2px solid #6a1b9a; /* Accent color */
+}
+
+/* Music details */
+.music-info {
+    padding: 15px;
+    text-align: center;
+}
+
+.music-info h3 {
+    font-size: 18px;
+    color: #333;
+    margin: 10px 0 5px;
+}
+
+.music-info p {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
+}
+
+/* Genres list */
+.music-info .genres {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.music-info .genre {
+    background-color: #6a1b9a;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+/* Listen Now button */
+.listen-now {
+    display: inline-block;
+    background-color: #834a8b; /* Button color */
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+    margin: 15px auto;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.listen-now:hover {
+    background-color: #6a1b9a; /* Accent color */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .music-list {
+        flex-direction: column;
+        align-items: center;
+    }
+}

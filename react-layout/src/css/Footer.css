@@ -1,0 +1,16 @@
+/* Footer.css */
+
+footer {
+    padding: 16px;
+    background-color: var(--header-background);
+    color: var(--text-color);
+    text-align: center;
+    width: 100%;
+    position: relative;
+    clear: both;
+    margin-top: 40px;
+}
+
+footer p {
+    margin: 0;
+}
