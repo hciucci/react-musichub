@@ -30,8 +30,6 @@ a:hover {
 }
 
 /* Home page styling */
-
-/* Center align text for main sections */
 .home-page {
     text-align: center;
     padding: 20px;
@@ -142,7 +140,6 @@ a:hover {
     background-color: var(--text-heading);
 }
 
-/* Responsive adjustments for the toggle button */
 /* Hide toggle button on larger screens */
 @media (min-width: 768px) {
     .toggle-button {

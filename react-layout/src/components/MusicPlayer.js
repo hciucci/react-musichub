@@ -1,4 +1,4 @@
-// src/components/MusicPlayer.js
+// MusicPlayer.js
 import React from 'react';
 
 const MusicPlayer = ({ nowPlaying }) => {

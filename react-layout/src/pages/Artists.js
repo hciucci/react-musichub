@@ -1,6 +1,6 @@
-// src/pages/Artists.js
+// Artists.js
 import React, { useState } from 'react';
-import '../css/Artists.css'; // Create an Artists.css file for styling
+import '../css/Artists.css';
 
 const artistsData = [
     {

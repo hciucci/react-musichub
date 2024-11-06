@@ -13,7 +13,7 @@
 .hero {
     padding: 50px 20px;
     background-color: var(--header-background);
-    margin-top: 20px; /* Add margin-top to separate from header */
+    margin-top: 20px;
 }
 
 .logo {
@@ -24,12 +24,12 @@
 }
 
 #menuToggle {
-    display: none; /* Hide on larger screens */
+    display: none;
     cursor: pointer;
 }
 
 #menuToggle.open span {
-    background-color: var(--accent-color); /* Optional: change color when open */
+    background-color: var(--accent-color);
 }
 
 #menuToggle span {
@@ -65,11 +65,11 @@
 /* Mobile styling */
 @media (max-width: 768px) {
     #menuToggle {
-        display: block; /* Show the toggle button on mobile */
+        display: block;
     }
 
     .navbar-menu {
-        display: none; /* Hide menu initially on mobile */
+        display: none;
         flex-direction: column;
         gap: 10px;
         background-color: var(--header-background);
@@ -82,6 +82,6 @@
     }
 
     .navbar-menu.active {
-        display: flex; /* Show the menu when active */
+        display: flex;
     }
 }

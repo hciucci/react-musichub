@@ -1,16 +1,18 @@
 /* Footer.css */
 
 footer {
-    padding: 16px;
+    padding: 20px;
     background-color: var(--header-background);
     color: var(--text-color);
     text-align: center;
     width: 100%;
-    position: relative;
-    clear: both;
     margin-top: 40px;
+    box-sizing: border-box;
 }
 
 footer p {
     margin: 0;
+    width: 100%;
+    text-align: center;
+    display: inline-block;
 }

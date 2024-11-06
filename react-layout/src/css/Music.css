@@ -5,13 +5,13 @@
     padding: 40px;
     max-width: 1200px;
     margin: auto;
-    background-color: #f9f9f9;
-    color: #333;
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 .music-page h2 {
     text-align: center;
-    color: #6a1b9a; /* Accent color */
+    color: var(--accent-color);
     font-size: 32px;
     margin-bottom: 20px;
 }
@@ -28,9 +28,9 @@
 
 /* Individual music item styling */
 .music-item {
-    background-color: #ffffff;
+    background-color: var(--header-background);
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     width: 250px;
     overflow: hidden;
     transition: transform 0.2s ease-in-out;
@@ -44,7 +44,7 @@
 .music-item img {
     width: 100%;
     height: auto;
-    border-bottom: 2px solid #6a1b9a; /* Accent color */
+    border-bottom: 2px solid var(--accent-color);
 }
 
 /* Music details */
@@ -55,13 +55,13 @@
 
 .music-info h3 {
     font-size: 18px;
-    color: #333;
+    color: var(--text-color);
     margin: 10px 0 5px;
 }
 
 .music-info p {
     font-size: 14px;
-    color: #555;
+    color: #bbb;
     margin: 5px 0;
 }
 
@@ -75,7 +75,7 @@
 }
 
 .music-info .genre {
-    background-color: #6a1b9a;
+    background-color: var(--accent-color);
     color: #fff;
     padding: 4px 8px;
     border-radius: 5px;
@@ -85,7 +85,7 @@
 /* Listen Now button */
 .listen-now {
     display: inline-block;
-    background-color: #834a8b; /* Button color */
+    background-color: var(--accent-color);
     color: #fff;
     padding: 10px 20px;
     text-align: center;
@@ -97,7 +97,7 @@
 }
 
 .listen-now:hover {
-    background-color: #6a1b9a; /* Accent color */
+    background-color: var(--text-heading);
 }
 
 /* Responsive adjustments */
