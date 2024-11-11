@@ -1,24 +1,29 @@
 // MusicPlayer.js
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 const MusicPlayer = ({ nowPlaying }) => {
     const audioRef = useRef(null);
+    const { song = "", artist = "No artist selected" } = nowPlaying || {};
 
-    // Function to handle play action
-    const playAudio = () => {
-        if (audioRef.current) {
-            audioRef.current.play();
+    useEffect(() => {
+        const audio = audioRef.current;
+        if (song) {
+            audio.pause();
+            audio.src = song;
+            audio.load();
+        } else {
+            audio.removeAttribute('src');
+            audio.load();
         }
-    };
+    }, [song]);
 
     return (
         <div id="music-player-section">
-            <p id="now-playing-text">Now Playing: {nowPlaying.artist}</p>
+            <p id="now-playing-text">Now Playing: {artist}</p>
             <audio ref={audioRef} id="music-player" controls>
-                <source src={nowPlaying.song} type="audio/mpeg" />
+                <source src={song} type="audio/mpeg" />
                 Your browser does not support the audio element.
             </audio>
-            <button onClick={playAudio} style={{ marginTop: '10px' }}>Play</button>
         </div>
     );
 };
