@@ -24,7 +24,7 @@
         "artist": "Yunior Arronte",
         "duration": "3:51",
         "description": "Warm Jazzy Royalty Free Music by Yunior Arronte, featuring calm piano, drums, and bass.",
-        "image": "images/yuniorarronte.png",
+        "image": "images/YuniorArronte.png",
         "genres": ["Jazz", "Relaxing", "Instrumental"]
       },
       {
@@ -42,7 +42,7 @@
         "artist": "Hugo Dujardin",
         "duration": "1:53",
         "description": "Touching Piano Royalty Free Music by Hugo Dujardin, featuring piano solo. Perfect for film and emotional scenes.",
-        "image": "images/hugodujardin.png",
+        "image": "images/HugoDujardin.png",
         "genres": ["Piano", "Emotional", "Classical"]
       },
       {
@@ -78,7 +78,7 @@
         "artist": "Lunar Years",
         "duration": "2:53",
         "description": "Touching Folk Royalty Free Music by Lunar Years, featuring acoustic guitar and heartfelt melodies.",
-        "image": "images/lunaryears.png",
+        "image": "images/LunarYears.png",
         "genres": ["Folk", "Acoustic", "Melodic"]
       },
       {
