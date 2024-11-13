@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/react-musichub/static/css/main.66f99dc4.css",
+    "main.js": "/react-musichub/static/js/main.28045056.js",
+    "index.html": "/react-musichub/index.html",
+    "main.66f99dc4.css.map": "/react-musichub/static/css/main.66f99dc4.css.map",
+    "main.28045056.js.map": "/react-musichub/static/js/main.28045056.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.66f99dc4.css",
+    "static/js/main.28045056.js"
+  ]
+}
