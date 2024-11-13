@@ -6,7 +6,7 @@ import MusicPlayer from '../components/MusicPlayer';
 const artistsData = [
     {
         name: "Hugo Dujardin",
-        image: "images/hugodujardin.png",
+        image: "images/HugoDujardin.png",
         bio: "Hugo Dujardin is a talented music producer known for creating uplifting and calm tunes that perfectly blend piano and smooth beats.",
         song: "audio/hugodujardin.mp3",
     },
@@ -18,13 +18,13 @@ const artistsData = [
     },
     {
         name: "Yunior Arronte",
-        image: "images/yuniorarronte.png",
+        image: "images/YuniorArronte.png",
         bio: "Known for warm jazzy vibes and soothing piano, Yunior Arronte creates relaxing and intimate soundtracks perfect for cozy evenings.",
         song: "audio/yuniorarronte.mp3",
     },
     {
         name: "Lunar Years",
-        image: "images/lunaryears.png",
+        image: "images/LunarYears.png",
         bio: "Lunar Years crafts heartfelt folk music, featuring acoustic guitar and calming, unique melodies that resonate with deeply emotional stories.",
         song: "audio/lunaryears.mp3",
     },
