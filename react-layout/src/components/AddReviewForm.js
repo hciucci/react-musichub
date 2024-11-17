@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../css/AddReviewForm.css"; // Make sure to create this CSS file
+import "../css/AddReviewForm.css";
 
 const AddReviewForm = ({ onAddReview }) => {
   const [title, setTitle] = useState("");
@@ -13,7 +13,6 @@ const AddReviewForm = ({ onAddReview }) => {
     e.preventDefault();
     setError("");
 
-    // Basic validation
     if (!title || !artist || !reviewer || !rating || !review) {
       setError("All fields are required.");
       return;
@@ -29,7 +28,6 @@ const AddReviewForm = ({ onAddReview }) => {
 
     onAddReview(newReview);
 
-    // Clear the form
     setTitle("");
     setArtist("");
     setReviewer("");
