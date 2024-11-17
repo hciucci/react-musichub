@@ -1,73 +1,149 @@
-// Reviews.js
-import React from 'react';
-import '../css/Reviews.css';
+import React, { useState } from "react";
+import AddReviewForm from "../components/AddReviewForm";
+import "../css/Reviews.css";
 
 const Reviews = () => {
-    return (
-        <div className="reviews-page">
-            <h2>Song Reviews</h2>
-            
-            <div className="review-item">
-                <h3>Song Title: "Dreams" by Benjamin Tissot</h3>
-                <p><strong>Reviewer:</strong> Jane Doe - &#9733;&#9733;&#9733;&#9733;&#9734;</p>
-                <p><strong>Review:</strong> "Dreams" is a relaxing, chill-out track perfect for unwinding after a long day. The laid-back mood and calming melodies are a hit!</p>
-            </div>
+  const [reviews, setReviews] = useState([
+    {
+      id: 1,
+      title: "Dreams",
+      artist: "Benjamin Tissot",
+      reviewer: "Jane Doe",
+      rating: 4,
+      review:
+        '"Dreams" is a relaxing, chill-out track perfect for unwinding after a long day. The laid-back mood and calming melodies are a hit!',
+    },
+    {
+      id: 2,
+      title: "Slow Life",
+      artist: "Benjamin Lazzarus",
+      reviewer: "John Smith",
+      rating: 4,
+      review:
+        '"Slow Life" offers an intriguing blend of epic royalty-free music, featuring piano and strings for a serene atmosphere. Perfect for videos!',
+    },
+    {
+      id: 3,
+      title: "Fireside Chat",
+      artist: "Yunior Arronte",
+      reviewer: "Alice Johnson",
+      rating: 4,
+      review:
+        '"Fireside Chat" has a warm, jazzy vibe with soothing instruments that create the perfect backdrop for a cozy evening. Highly recommended!',
+    },
+    {
+      id: 4,
+      title: "Dawn of Change",
+      artist: "Roman Senyk",
+      reviewer: "Mark Wilson",
+      rating: 3,
+      review:
+        '"Dawn of Change" brings emotional cinematic royalty-free music with strings and percussion that evoke powerful feelings of transformation.',
+    },
+    {
+      id: 5,
+      title: "Hope",
+      artist: "Hugo Dujardin",
+      reviewer: "Sarah Clark",
+      rating: 4,
+      review:
+        '"Hope" is a beautiful, touching piano track that will resonate with anyone who enjoys calming piano solos. It\'s short but very sweet.',
+    },
+    {
+      id: 6,
+      title: "Yesterday",
+      artist: "Aventure",
+      reviewer: "Chris Thompson",
+      rating: 5,
+      review:
+        '"Yesterday" is a standout! The relaxing synths and drums make it a great choice for unwinding and creating a serene atmosphere. A must-listen.',
+    },
+    {
+      id: 7,
+      title: "Hearty",
+      artist: "Aventure",
+      reviewer: "Rachel Evans",
+      rating: 3,
+      review:
+        '"Hearty" has a touching, soft feel, with relaxing synths and drums that fit perfectly for emotional scenes. Aventure delivers again.',
+    },
+    {
+      id: 8,
+      title: "Floating Garden",
+      artist: "Aventure",
+      reviewer: "Michael Brown",
+      rating: 4,
+      review:
+        '"Floating Garden" is a dreamy lo-fi track that features bass and electric guitar. Its mellow vibes are perfect for chilling out.',
+    },
+    {
+      id: 9,
+      title: "Angels By My Side",
+      artist: "Lunar Years",
+      reviewer: "Laura Green",
+      rating: 4,
+      review:
+        '"Angels By My Side" is a beautiful, touching folk track featuring acoustic guitar and heartfelt melodies. It\'s a deeply emotional song.',
+    },
+    {
+      id: 10,
+      title: "Moonlight Drive",
+      artist: "Yunior Arronte",
+      reviewer: "Tom Harris",
+      rating: 5,
+      review:
+        '"Moonlight Drive" is a slow, lo-fi relaxing track with calming piano, synth, drums, and bass. Perfect for a late-night drive or chill session.',
+    },
+  ]);
 
-            <div className="review-item">
-                <h3>Song Title: "Slow Life" by Benjamin Lazzarus</h3>
-                <p><strong>Reviewer:</strong> John Smith - &#9733;&#9733;&#9733;&#9733;&#9734;</p>
-                <p><strong>Review:</strong> "Slow Life" offers an intriguing blend of epic royalty-free music, featuring piano and strings for a serene atmosphere. Perfect for videos!</p>
-            </div>
+  // Function to handle adding a review
+  const handleAddReview = async (newReview) => {
+    try {
+      const response = await fetch("http://localhost:3000/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newReview),
+      });
+      const data = await response.json();
 
-            <div className="review-item">
-                <h3>Song Title: "Fireside Chat" by Yunior Arronte</h3>
-                <p><strong>Reviewer:</strong> Alice Johnson - &#9733;&#9733;&#9733;&#9733;&#9734;</p>
-                <p><strong>Review:</strong> "Fireside Chat" has a warm, jazzy vibe with soothing instruments that create the perfect backdrop for a cozy evening. Highly recommended!</p>
-            </div>
+      if (response.ok) {
+        // Update reviews list dynamically
+        setReviews((prevReviews) => [...prevReviews, data]);
+        return { success: true };
+      } else {
+        return { success: false, message: data.message };
+      }
+    } catch (err) {
+      console.error(err);
+      return { success: false, message: "Error submitting review" };
+    }
+  };
 
-            <div className="review-item">
-                <h3>Song Title: "Dawn of Change" by Roman Senyk</h3>
-                <p><strong>Reviewer:</strong> Mark Wilson - &#9733;&#9733;&#9733;&#9734;&#9734;</p>
-                <p><strong>Review:</strong> "Dawn of Change" brings emotional cinematic royalty-free music with strings and percussion that evoke powerful feelings of transformation.</p>
-            </div>
+  return (
+    <div className="reviews-page">
+      <h2>Song Reviews</h2>
 
-            <div className="review-item">
-                <h3>Song Title: "Hope" by Hugo Dujardin</h3>
-                <p><strong>Reviewer:</strong> Sarah Clark - &#9733;&#9733;&#9733;&#9733;&#9734;</p>
-                <p><strong>Review:</strong> "Hope" is a beautiful, touching piano track that will resonate with anyone who enjoys calming piano solos. It's short but very sweet.</p>
-            </div>
+      {/* Add Review Form */}
+      <AddReviewForm onAddReview={handleAddReview} />
 
-            <div className="review-item">
-                <h3>Song Title: "Yesterday" by Aventure</h3>
-                <p><strong>Reviewer:</strong> Chris Thompson - &#9733;&#9733;&#9733;&#9733;&#9733;</p>
-                <p><strong>Review:</strong> "Yesterday" is a standout! The relaxing synths and drums make it a great choice for unwinding and creating a serene atmosphere. A must-listen.</p>
-            </div>
-
-            <div className="review-item">
-                <h3>Song Title: "Hearty" by Aventure</h3>
-                <p><strong>Reviewer:</strong> Rachel Evans - &#9733;&#9733;&#9733;&#9734;&#9734;</p>
-                <p><strong>Review:</strong> "Hearty" has a touching, soft feel, with relaxing synths and drums that fit perfectly for emotional scenes. Aventure delivers again.</p>
-            </div>
-
-            <div className="review-item">
-                <h3>Song Title: "Floating Garden" by Aventure</h3>
-                <p><strong>Reviewer:</strong> Michael Brown - &#9733;&#9733;&#9733;&#9733;&#9734;</p>
-                <p><strong>Review:</strong> "Floating Garden" is a dreamy lo-fi track that features bass and electric guitar. Its mellow vibes are perfect for chilling out.</p>
-            </div>
-
-            <div className="review-item">
-                <h3>Song Title: "Angels By My Side" by Lunar Years</h3>
-                <p><strong>Reviewer:</strong> Laura Green - &#9733;&#9733;&#9733;&#9733;&#9734;</p>
-                <p><strong>Review:</strong> "Angels By My Side" is a beautiful, touching folk track featuring acoustic guitar and heartfelt melodies. It's a deeply emotional song.</p>
-            </div>
-
-            <div className="review-item">
-                <h3>Song Title: "Moonlight Drive" by Yunior Arronte</h3>
-                <p><strong>Reviewer:</strong> Tom Harris - &#9733;&#9733;&#9733;&#9733;&#9733;</p>
-                <p><strong>Review:</strong> "Moonlight Drive" is a slow, lo-fi relaxing track with calming piano, synth, drums, and bass. Perfect for a late-night drive or chill session.</p>
-            </div>
+      {/* Display Reviews */}
+      {reviews.map((review) => (
+        <div className="review-item" key={review.id}>
+          <h3>
+            Song Title: "{review.title}" by {review.artist}
+          </h3>
+          <p>
+            <strong>Reviewer:</strong> {review.reviewer} -{" "}
+            {"★".repeat(review.rating)}
+            {"☆".repeat(5 - review.rating)} {/* Display stars dynamically */}
+          </p>
+          <p>
+            <strong>Review:</strong> {review.review}
+          </p>
         </div>
-    );
+      ))}
+    </div>
+  );
 };
 
 export default Reviews;

@@ -1,0 +1,80 @@
+.contact-us {
+  padding: 32px;
+  max-width: 600px; /* Slightly narrower for symmetry */
+  margin: 40px auto;
+  background-color: var(--header-background);
+  border-radius: 10px;
+  text-align: center; /* Center-align all content */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow for depth */
+}
+
+.contact-us h2 {
+  text-align: center;
+  color: var(--accent-color);
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+.contact-us p {
+  color: var(--text-color);
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.contact-form label {
+  width: 100%;
+  text-align: left;
+  color: var(--text-color);
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-size: 16px;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.contact-form button {
+  padding: 12px 24px;
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.contact-form button:hover {
+  background-color: var(--text-heading);
+}
+
+.form-success-message,
+.form-error-message {
+  margin-top: 20px;
+  color: var(--accent-color);
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+}
