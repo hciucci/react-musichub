@@ -4,12 +4,10 @@
 </head>
 <body>
   <script type="text/javascript">
-    if (window.location.pathname !== "/react-musichub/") {
-      const currentPath = window.location.pathname + window.location.search + window.location.hash;
-      window.location.replace("/react-musichub/#" + currentPath);
-    } else {
-      document.write("Page not found. Please go back to the homepage.");
-    }
+    let currentPath = window.location.pathname + window.location.search + window.location.hash;
+    currentPath = currentPath.replace("/react-musichub", "");
+
+    window.location.replace("/react-musichub/#" + currentPath);
   </script>
 </body>
 </html>
