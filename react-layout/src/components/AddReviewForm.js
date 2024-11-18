@@ -2,92 +2,114 @@ import React, { useState } from "react";
 import "../css/AddReviewForm.css";
 
 const AddReviewForm = ({ onAddReview }) => {
-  const [title, setTitle] = useState("");
-  const [artist, setArtist] = useState("");
-  const [reviewer, setReviewer] = useState("");
-  const [rating, setRating] = useState("");
-  const [review, setReview] = useState("");
-  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    title: "",
+    artist: "",
+    reviewer: "",
+    rating: "",
+    review: "",
+  });
+  const [formStatus, setFormStatus] = useState(null);
+  const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setFormStatus(null);
+    setErrors({});
 
-    if (!title || !artist || !reviewer || !rating || !review) {
-      setError("All fields are required.");
+    if (!formData.title || formData.title.length < 2) {
+      setErrors((prev) => ({ ...prev, title: "Title must be at least 2 characters." }));
       return;
     }
 
-    const newReview = {
-      title,
-      artist,
-      reviewer,
-      rating: parseInt(rating),
-      review,
-    };
+    if (!formData.rating || formData.rating < 1 || formData.rating > 5) {
+      setErrors((prev) => ({ ...prev, rating: "Rating must be between 1 and 5." }));
+      return;
+    }
 
-    onAddReview(newReview);
+    try {
+      const response = await fetch("http://localhost:3001/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    setTitle("");
-    setArtist("");
-    setReviewer("");
-    setRating("");
-    setReview("");
+      const result = await response.json();
+
+      if (response.ok) {
+        onAddReview(result.review);
+        setFormData({
+          title: "",
+          artist: "",
+          reviewer: "",
+          rating: "",
+          review: "",
+        });
+        setFormStatus("success");
+      } else {
+        setFormStatus(result.message);
+      }
+    } catch (error) {
+      setFormStatus("Error submitting review. Please try again later.");
+    }
   };
 
   return (
     <form className="add-review-form" onSubmit={handleSubmit}>
-      <h3>Add a Review</h3>
-      {error && <p className="error-message">{error}</p>}
-      <div className="form-group">
-        <label>Name:</label>
-        <input
-          type="text"
-          value={reviewer}
-          onChange={(e) => setReviewer(e.target.value)}
-          placeholder="Enter your name"
-        />
-      </div>
-      <div className="form-group">
-        <label>Song Title:</label>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Enter the song title"
-        />
-      </div>
-      <div className="form-group">
-        <label>Artist:</label>
-        <input
-          type="text"
-          value={artist}
-          onChange={(e) => setArtist(e.target.value)}
-          placeholder="Enter the artist's name"
-        />
-      </div>
-      <div className="form-group">
-        <label>Rating (1-5):</label>
-        <input
-          type="number"
-          min="1"
-          max="5"
-          value={rating}
-          onChange={(e) => setRating(e.target.value)}
-          placeholder="Enter a rating"
-        />
-      </div>
-      <div className="form-group">
-        <label>Comment:</label>
-        <textarea
-          value={review}
-          onChange={(e) => setReview(e.target.value)}
-          placeholder="Enter your review"
-        ></textarea>
-      </div>
-      <button className="submit-button" type="submit">
-        Submit Review
-      </button>
+      <label>Title:</label>
+      <input
+        type="text"
+        name="title"
+        value={formData.title}
+        onChange={handleChange}
+        required
+      />
+      {errors.title && <p className="error">{errors.title}</p>}
+
+      <label>Artist:</label>
+      <input
+        type="text"
+        name="artist"
+        value={formData.artist}
+        onChange={handleChange}
+        required
+      />
+
+      <label>Reviewer:</label>
+      <input
+        type="text"
+        name="reviewer"
+        value={formData.reviewer}
+        onChange={handleChange}
+        required
+      />
+
+      <label>Rating (1-5):</label>
+      <input
+        type="number"
+        name="rating"
+        value={formData.rating}
+        onChange={handleChange}
+        required
+      />
+      {errors.rating && <p className="error">{errors.rating}</p>}
+
+      <label>Review:</label>
+      <textarea
+        name="review"
+        value={formData.review}
+        onChange={handleChange}
+        required
+      ></textarea>
+
+      <button type="submit">Submit Review</button>
+
+      {formStatus === "success" && <p className="success">Review submitted successfully!</p>}
+      {formStatus && formStatus !== "success" && <p className="error">{formStatus}</p>}
     </form>
   );
 };

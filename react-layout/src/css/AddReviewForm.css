@@ -1,80 +1,64 @@
-.contact-us {
-  padding: 32px;
-  max-width: 600px; /* Slightly narrower for symmetry */
-  margin: 40px auto;
+.add-review-container {
+  margin: 20px auto;
+  max-width: 600px;
+  padding: 20px;
   background-color: var(--header-background);
   border-radius: 10px;
-  text-align: center; /* Center-align all content */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow for depth */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.contact-us h2 {
+.add-review-container h3 {
   text-align: center;
   color: var(--accent-color);
   margin-bottom: 20px;
-  font-size: 28px;
 }
 
-.contact-us p {
-  color: var(--text-color);
-  margin-bottom: 20px;
-  font-size: 16px;
-}
-
-.contact-form {
+.add-review-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 16px;
+  gap: 15px;
+  margin-bottom: 30px;
 }
 
-.contact-form label {
-  width: 100%;
-  text-align: left;
-  color: var(--text-color);
+.add-review-form label {
   font-weight: bold;
-  margin-bottom: 5px;
+  color: var(--text-color);
 }
 
-.contact-form input,
-.contact-form textarea {
-  width: 100%;
-  max-width: 500px;
-  padding: 12px;
+.add-review-form input,
+.add-review-form textarea {
+  padding: 10px;
   border: 1px solid var(--text-color);
   border-radius: 5px;
   background-color: var(--background-color);
   color: var(--text-color);
-  font-size: 16px;
 }
 
-.contact-form input:focus,
-.contact-form textarea:focus {
-  outline: none;
-  border-color: var(--accent-color);
-}
-
-.contact-form button {
-  padding: 12px 24px;
+.add-review-form button {
+  padding: 12px;
   background-color: var(--accent-color);
   color: white;
   border: none;
   border-radius: 5px;
   font-weight: bold;
-  font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.contact-form button:hover {
+.add-review-form button:hover {
   background-color: var(--text-heading);
 }
 
-.form-success-message,
-.form-error-message {
+.success-message {
   margin-top: 20px;
-  color: var(--accent-color);
+  color: var(--success-color);
   font-weight: bold;
-  font-size: 18px;
+  text-align: center;
+}
+
+.error-message {
+  margin-top: 20px;
+  color: var(--error-color);
+  font-weight: bold;
   text-align: center;
 }
