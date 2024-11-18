@@ -32,8 +32,12 @@ app.get("/reviews", (req, res) => {
 
 // POST to add review
 app.post("/reviews", (req, res) => {
+  console.log("Received data:", req.body); // Log incoming data
   const { error } = reviewSchema.validate(req.body);
-  if (error) return res.status(400).send({ message: error.details[0].message });
+  if (error) {
+    console.log("Validation error:", error.details[0].message); // Log validation errors
+    return res.status(400).send({ message: error.details[0].message });
+  }
 
   const newReview = { id: reviews.length + 1, ...req.body };
   reviews.push(newReview);

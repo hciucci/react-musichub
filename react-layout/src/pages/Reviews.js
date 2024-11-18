@@ -97,17 +97,14 @@ const Reviews = () => {
         },
       ];
 
-  // State to hold all reviews (hardcoded + server)
   const [reviews, setReviews] = useState(originalReviews);
 
-  // Fetch reviews from the server on component mount
   useEffect(() => {
     const fetchReviews = async () => {
       try {
         const response = await fetch("http://localhost:3000/reviews");
         const serverReviews = await response.json();
 
-        // Merge server reviews with hardcoded reviews, avoiding duplicates
         setReviews((prevReviews) => [
           ...prevReviews,
           ...serverReviews.filter(
@@ -123,26 +120,24 @@ const Reviews = () => {
     fetchReviews();
   }, []);
 
-  // Function to handle adding a review
+  // adding a review
   const handleAddReview = async (newReview) => {
     try {
-      const response = await fetch("http://localhost:3000/reviews", {
+      const response = await fetch("http://localhost:3001/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newReview),
       });
+  
       const data = await response.json();
-
+  
       if (response.ok) {
-        // Update reviews list dynamically
         setReviews((prevReviews) => [...prevReviews, data]);
-        return { success: true };
       } else {
-        return { success: false, message: data.message };
+        console.error(data.message);
       }
     } catch (err) {
-      console.error(err);
-      return { success: false, message: "Error submitting review" };
+      console.error("Error submitting review:", err);
     }
   };
 
@@ -162,7 +157,7 @@ const Reviews = () => {
           <p>
             <strong>Reviewer:</strong> {review.reviewer} -{" "}
             {"★".repeat(review.rating)}
-            {"☆".repeat(5 - review.rating)} {/* Display stars dynamically */}
+            {"☆".repeat(5 - review.rating)}
           </p>
           <p>
             <strong>Review:</strong> {review.review}
