@@ -104,7 +104,7 @@ const Reviews = () => {
       try {
         const response = await fetch("http://localhost:3001/reviews");
         const data = await response.json();
-        setReviews(data); // Update reviews state with data from backend
+        setReviews(data);
       } catch (err) {
         console.error("Error fetching reviews:", err);
       }
