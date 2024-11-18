@@ -119,7 +119,7 @@ const Reviews = () => {
   const handleAddReview = async (newReview) => {
     try {
       const response = await fetch(
-        "https://react-musichub-backend.onrender.com",
+        "https://react-musichub-backend.onrender.com/reviews",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
