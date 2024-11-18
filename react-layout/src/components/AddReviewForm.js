@@ -128,7 +128,7 @@ const AddReviewForm = ({ onAddReview }) => {
 
       {formStatus === "success" && (
         <p className="success">
-          Review submitted successfully! Refresh the page to see your review!
+          Review submitted successfully!
         </p>
       )}
       {formStatus && formStatus !== "success" && (
