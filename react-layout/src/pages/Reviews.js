@@ -127,11 +127,14 @@ const Reviews = () => {
         }
       );
 
-      const data = await response.json();
-
       if (response.ok) {
-        setReviews((prevReviews) => [...prevReviews, data]);
+        const updatedReviews = await fetch(
+          "https://react-musichub-backend.onrender.com/reviews"
+        );
+        const updatedData = await updatedReviews.json();
+        setReviews(updatedData);
       } else {
+        const data = await response.json();
         console.error(data.message);
       }
     } catch (err) {
