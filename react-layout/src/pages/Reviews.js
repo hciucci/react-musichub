@@ -128,7 +128,6 @@ const Reviews = () => {
       );
 
       if (response.ok) {
-        // Add the new review to the current state instantly
         const data = await response.json();
         setReviews((prevReviews) => [...prevReviews, data]);
       } else {
