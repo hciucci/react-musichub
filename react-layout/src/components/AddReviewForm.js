@@ -49,7 +49,7 @@ const AddReviewForm = ({ onAddReview }) => {
             title: formData.title,
             artist: formData.artist,
             reviewer: formData.reviewer,
-            rating: parseInt(formData.rating), // Ensure rating is a number
+            rating: parseInt(formData.rating),
             review: formData.review,
           }),
         }
@@ -58,7 +58,7 @@ const AddReviewForm = ({ onAddReview }) => {
       const result = await response.json();
 
       if (response.ok) {
-        onAddReview(result); // Update the reviews list
+        onAddReview(result);
         setFormData({
           title: "",
           artist: "",
