@@ -102,21 +102,14 @@ const Reviews = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await fetch("http://localhost:3000/reviews");
-        const serverReviews = await response.json();
-
-        setReviews((prevReviews) => [
-          ...prevReviews,
-          ...serverReviews.filter(
-            (serverReview) =>
-              !prevReviews.some((review) => review.id === serverReview.id)
-          ),
-        ]);
-      } catch (error) {
-        console.error("Error fetching reviews:", error);
+        const response = await fetch("http://localhost:3001/reviews");
+        const data = await response.json();
+        setReviews(data); // Update reviews state with data from backend
+      } catch (err) {
+        console.error("Error fetching reviews:", err);
       }
     };
-
+  
     fetchReviews();
   }, []);
 
