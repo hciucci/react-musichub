@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="refresh" content="0; URL='/'" />
-    <script>
-      const redirectTo = window.location.pathname;
-      if (redirectTo !== "/") {
-        window.location.replace(`/${redirectTo}`);
-      }
+    <meta charset="UTF-8" />
+    <script type="text/javascript">
+      var currentUrl = window.location.href;
+      var newUrl = currentUrl.replace(window.location.origin, "/react-musichub");
+      window.location.replace(newUrl);
     </script>
   </head>
   <body>
+    <h1>Redirecting...</h1>
   </body>
 </html>
