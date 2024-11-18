@@ -103,7 +103,7 @@ const Reviews = () => {
     const fetchReviews = async () => {
       try {
         const response = await fetch(
-          "https://your-backend-name.onrender.com/reviews"
+          "https://react-musichub-backend.onrender.com/reviews"
         );
         const data = await response.json();
         setReviews(data);
