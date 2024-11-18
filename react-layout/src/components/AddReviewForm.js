@@ -108,7 +108,7 @@ const AddReviewForm = ({ onAddReview }) => {
 
       <button type="submit">Submit Review</button>
 
-      {formStatus === "success" && <p className="success">Review submitted successfully!</p>}
+      {formStatus === "success" && <p className="success">Review submitted successfully! Refresh the page to see your review!</p>}
       {formStatus && formStatus !== "success" && <p className="error">{formStatus}</p>}
     </form>
   );
