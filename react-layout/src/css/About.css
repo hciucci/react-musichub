@@ -1,19 +1,21 @@
 /* About Us Section */
-.about-us-page {
+.about-page {
     padding: 40px;
     max-width: 800px;
     margin: auto;
     text-align: center;
     color: var(--text-color);
+    border-radius: 10px;
+    box-shadow: none;
 }
 
-.about-us-page h2 {
+.about-page h2 {
     font-size: 32px;
     color: var(--accent-color);
     margin-bottom: 20px;
 }
 
-.about-us-page p {
+.about-page p {
     font-size: 18px;
     line-height: 1.6;
     color: var(--text-color);
@@ -25,10 +27,9 @@
     padding: 32px;
     max-width: 800px;
     margin: 40px auto;
-    background-color: var(--header-background);
-    border-radius: 10px;
     text-align: left;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    box-shadow: none;
 }
 
 .contact-us h2 {
@@ -105,9 +106,8 @@
     margin: 40px auto;
     max-width: 560px;
     padding: 16px;
-    background-color: var(--header-background);
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: none;
 }
 
 .video-wrapper h3 {
@@ -127,7 +127,7 @@
 
 /* Media Query */
 @media (max-width: 768px) {
-    .about-us-page,
+    .about-page,
     .contact-us {
         padding: 20px;
     }
