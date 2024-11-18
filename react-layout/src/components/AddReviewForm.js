@@ -21,27 +21,44 @@ const AddReviewForm = ({ onAddReview }) => {
     setFormStatus(null);
     setErrors({});
 
+    // Validate form inputs
     if (!formData.title || formData.title.length < 2) {
-      setErrors((prev) => ({ ...prev, title: "Title must be at least 2 characters." }));
+      setErrors((prev) => ({
+        ...prev,
+        title: "Title must be at least 2 characters.",
+      }));
       return;
     }
 
     if (!formData.rating || formData.rating < 1 || formData.rating > 5) {
-      setErrors((prev) => ({ ...prev, rating: "Rating must be between 1 and 5." }));
+      setErrors((prev) => ({
+        ...prev,
+        rating: "Rating must be between 1 and 5.",
+      }));
       return;
     }
 
     try {
-      const response = await fetch("http://localhost:3001/reviews", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      // Ensure JSON is correctly formatted
+      const response = await fetch(
+        "https://react-musichub-backend.onrender.com/reviews",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: formData.title,
+            artist: formData.artist,
+            reviewer: formData.reviewer,
+            rating: parseInt(formData.rating), // Ensure rating is a number
+            review: formData.review,
+          }),
+        }
+      );
 
       const result = await response.json();
 
       if (response.ok) {
-        onAddReview(result.review);
+        onAddReview(result); // Update the reviews list
         setFormData({
           title: "",
           artist: "",
@@ -51,9 +68,10 @@ const AddReviewForm = ({ onAddReview }) => {
         });
         setFormStatus("success");
       } else {
-        setFormStatus(result.message);
+        setFormStatus(result.message || "Error submitting review.");
       }
     } catch (error) {
+      console.error("Error submitting review:", error);
       setFormStatus("Error submitting review. Please try again later.");
     }
   };
@@ -108,8 +126,14 @@ const AddReviewForm = ({ onAddReview }) => {
 
       <button type="submit">Submit Review</button>
 
-      {formStatus === "success" && <p className="success">Review submitted successfully! Refresh the page to see your review!</p>}
-      {formStatus && formStatus !== "success" && <p className="error">{formStatus}</p>}
+      {formStatus === "success" && (
+        <p className="success">
+          Review submitted successfully! Refresh the page to see your review!
+        </p>
+      )}
+      {formStatus && formStatus !== "success" && (
+        <p className="error">{formStatus}</p>
+      )}
     </form>
   );
 };
