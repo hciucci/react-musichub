@@ -129,7 +129,9 @@ const Reviews = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setReviews((prevReviews) => [...prevReviews, data]);
+        setTimeout(() => {
+          setReviews((prevReviews) => [...prevReviews, data]);
+        }, 500); // 500ms delay because render takes a while to get the review data
       } else {
         const data = await response.json();
         console.error(data.message);
