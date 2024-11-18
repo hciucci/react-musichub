@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AddReviewForm from "../components/AddReviewForm";
+import axios from "axios";
 import "../css/Reviews.css";
 
 const Reviews = () => {
@@ -102,11 +103,10 @@ const Reviews = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           "https://react-musichub-backend.onrender.com/reviews"
         );
-        const data = await response.json();
-        setReviews(data);
+        setReviews((prevReviews) => [...prevReviews, ...response.data]);
       } catch (err) {
         console.error("Error fetching reviews:", err);
       }
@@ -118,23 +118,22 @@ const Reviews = () => {
   // adding a review
   const handleAddReview = async (newReview) => {
     try {
-      const response = await fetch(
+      const response = await axios.post(
         "https://react-musichub-backend.onrender.com/reviews",
+        newReview,
         {
-          method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newReview),
         }
       );
 
-      if (response.ok) {
-        const data = await response.json();
-        setTimeout(() => {
-          setReviews((prevReviews) => [...prevReviews, data]);
-        }, 500); // 500ms delay because render takes a while to get the review data
+      if (response.status === 201) {
+        // Fetch the updated list of reviews to reflect the new review
+        const updatedResponse = await axios.get(
+          "https://react-musichub-backend.onrender.com/reviews"
+        );
+        setReviews((prevReviews) => [...originalReviews, ...updatedResponse.data]);
       } else {
-        const data = await response.json();
-        console.error(data.message);
+        console.error("Failed to add review:", response.data.message);
       }
     } catch (err) {
       console.error("Error submitting review:", err);
