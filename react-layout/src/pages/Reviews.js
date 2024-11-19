@@ -137,7 +137,11 @@ const Reviews = () => {
         }
       );
 
+      // Log the response for debugging purposes
+      console.log("Add review response:", response);
+
       if (response.status === 201) {
+        console.log("Review successfully added:", response.data);
         setReviews((prevReviews) => [...prevReviews, response.data]);
       } else {
         console.error("Failed to add review:", response.data.message);
