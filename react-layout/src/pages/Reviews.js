@@ -4,7 +4,7 @@ import axios from "axios";
 import "../css/Reviews.css";
 
 const Reviews = () => {
-  // Hardcoded original reviews, wrapped with useMemo
+  // Hardcoded original reviews, wrapped with useMemo to avoid re-creation on every render
   const originalReviews = useMemo(
     () => [
       {
@@ -101,7 +101,7 @@ const Reviews = () => {
     []
   );
 
-  const [reviews, setReviews] = useState([...originalReviews]);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -109,14 +109,8 @@ const Reviews = () => {
         const response = await axios.get(
           "https://react-musichub-backend.onrender.com/reviews"
         );
-        setReviews((prevReviews) => {
-          // Ensure no duplicates by avoiding re-adding the original reviews
-          const fetchedIds = new Set(response.data.map((review) => review.id));
-          const nonDuplicateOriginals = originalReviews.filter(
-            (review) => !fetchedIds.has(review.id)
-          );
-          return [...nonDuplicateOriginals, ...response.data];
-        });
+        // Combine originalReviews with fetched reviews only once on initial load
+        setReviews([...originalReviews, ...response.data]);
       } catch (err) {
         console.error("Error fetching reviews:", err);
       }
