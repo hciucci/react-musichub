@@ -6,8 +6,6 @@ import "../css/Reviews.css";
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
 
-  // useEffect to fetch reviews on component mount
-  // useEffect “delays” a piece of code from running until that render is reflected on the screen.
   useEffect(() => {
     (async () => {
       try {
@@ -21,7 +19,6 @@ const Reviews = () => {
     })();
   }, []);
 
-  // Function to handle adding a new review
   const handleAddReview = async (newReview) => {
     try {
       const response = await axios.post(
@@ -33,7 +30,6 @@ const Reviews = () => {
       );
 
       if (response.status === 201) {
-        // Add the new review to the state
         setReviews((prevReviews) => [...prevReviews, response.data]);
       } else {
         console.error("Failed to add review:", response.data.message);

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Redirecting...</title>
+</head>
+<body>
+  <script type="text/javascript">
+    let currentPath = window.location.pathname + window.location.search + window.location.hash;
+    
+    currentPath = currentPath.replace("/react-musichub", "");
+
+    window.location.replace("/react-musichub/index.html#" + currentPath);
+  </script>
+</body>
+</html>
