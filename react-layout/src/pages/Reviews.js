@@ -25,7 +25,7 @@ const Reviews = () => {
   const handleAddReview = async (newReview) => {
     try {
       const response = await axios.post(
-        "https://react-musichub-backend.onrender.com",
+        "https://react-musichub-backend.onrender.com/reviews",
         newReview,
         {
           headers: { "Content-Type": "application/json" },
