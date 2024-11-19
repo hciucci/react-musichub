@@ -20,7 +20,8 @@ const AddReviewForm = ({ onAddReview }) => {
     e.preventDefault();
     setFormStatus(null);
     setErrors({});
-
+  
+    // Validate fields
     if (!formData.title || formData.title.length < 2) {
       setErrors((prev) => ({
         ...prev,
@@ -28,7 +29,7 @@ const AddReviewForm = ({ onAddReview }) => {
       }));
       return;
     }
-
+  
     if (!formData.rating || formData.rating < 1 || formData.rating > 5) {
       setErrors((prev) => ({
         ...prev,
@@ -36,7 +37,10 @@ const AddReviewForm = ({ onAddReview }) => {
       }));
       return;
     }
-
+  
+    // Prepare data, explicitly avoiding `id`
+    const { title, artist, reviewer, rating, review } = formData;
+  
     try {
       const response = await fetch(
         "https://react-musichub-backend.onrender.com/reviews",
@@ -44,21 +48,19 @@ const AddReviewForm = ({ onAddReview }) => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            title: formData.title,
-            artist: formData.artist,
-            reviewer: formData.reviewer,
-            rating: parseInt(formData.rating),
-            review: formData.review,
+            title,
+            artist,
+            reviewer,
+            rating: parseInt(rating),
+            review,
           }),
         }
       );
-
+  
       const result = await response.json();
-
+  
       if (response.ok) {
-        // AddReview updates state only after successful post confirmation
         onAddReview(result);
-
         setFormData({
           title: "",
           artist: "",
