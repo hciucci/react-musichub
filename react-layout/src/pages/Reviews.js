@@ -21,14 +21,22 @@ const Reviews = () => {
 
   const handleAddReview = async (newReview) => {
     try {
+      const sanitizedReview = {
+        title: newReview.title,
+        artist: newReview.artist,
+        reviewer: newReview.reviewer,
+        rating: newReview.rating,
+        review: newReview.review,
+      };
+  
       const response = await axios.post(
         "https://react-musichub-backend.onrender.com/reviews",
-        newReview,
+        sanitizedReview,
         {
           headers: { "Content-Type": "application/json" },
         }
       );
-
+  
       if (response.status === 201) {
         setReviews((prevReviews) => [...prevReviews, response.data]);
       } else {
