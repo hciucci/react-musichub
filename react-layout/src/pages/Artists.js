@@ -53,7 +53,7 @@ const Artists = () => {
         ))}
       </div>
 
-      <MusicPlayer nowPlaying={nowPlaying} /> {/* Render MusicPlayer only here */}
+      <MusicPlayer nowPlaying={nowPlaying} />
     </div>
   );
 };

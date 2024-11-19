@@ -21,7 +21,7 @@ const AddReviewForm = ({ onAddReview }) => {
     setFormStatus(null);
     setErrors({});
   
-    // Validate fields
+    // Validates fields
     if (!formData.title || formData.title.length < 2) {
       setErrors((prev) => ({
         ...prev,
@@ -38,7 +38,7 @@ const AddReviewForm = ({ onAddReview }) => {
       return;
     }
   
-    // Prepare data, explicitly avoiding `id`
+    // avoids id being added to data
     const { title, artist, reviewer, rating, review } = formData;
   
     try {

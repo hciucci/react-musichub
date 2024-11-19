@@ -29,7 +29,6 @@ const About = () => {
             using the form below:
           </p>
 
-          {/* Replace Inline Form with ContactForm Component */}
           <ContactForm />
         </div>
 

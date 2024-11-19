@@ -17,14 +17,14 @@ html, body {
     font-family: Arial, sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
-    height: 100%; /* Set html and body to take up full height */
+    height: 100%;
     display: flex;
     flex-direction: column;
 }
 
 /* The main content wrapper */
 .main-content {
-    flex: 1; /* Allows the content area to grow and push the footer down */
+    flex: 1;
     padding: 20px;
 }
 
