@@ -12,7 +12,7 @@ const Reviews = () => {
     (async () => {
       try {
         const response = await axios.get(
-          "https://react-musichub-backend.onrender.com"
+          "https://react-musichub-backend.onrender.com/reviews"
         );
         setReviews(response.data);
       } catch (error) {
@@ -25,7 +25,7 @@ const Reviews = () => {
   const handleAddReview = async (newReview) => {
     try {
       const response = await axios.post(
-        "https://react-musichub-backend.onrender.com/reviews",
+        "https://react-musichub-backend.onrender.com",
         newReview,
         {
           headers: { "Content-Type": "application/json" },
