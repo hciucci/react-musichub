@@ -12,7 +12,7 @@ const Reviews = () => {
     (async () => {
       try {
         const response = await axios.get(
-          "https://react-musichub-backend.onrender.com/reviews"
+          "https://react-musichub-backend.onrender.com"
         );
         setReviews(response.data);
       } catch (error) {
