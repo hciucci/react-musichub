@@ -6,20 +6,19 @@ import "../css/Reviews.css";
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
 
-  // Fetch reviews from the backend when the component mounts
+  // useEffect to fetch reviews on component mount
+  // useEffect “delays” a piece of code from running until that render is reflected on the screen.
   useEffect(() => {
-    const fetchReviews = async () => {
+    (async () => {
       try {
         const response = await axios.get(
           "https://react-musichub-backend.onrender.com/reviews"
         );
         setReviews(response.data);
-      } catch (err) {
-        console.error("Error fetching reviews:", err);
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
       }
-    };
-
-    fetchReviews();
+    })();
   }, []);
 
   // Function to handle adding a new review
@@ -34,7 +33,7 @@ const Reviews = () => {
       );
 
       if (response.status === 201) {
-        // Update the reviews state with the newly added review
+        // Add the new review to the state
         setReviews((prevReviews) => [...prevReviews, response.data]);
       } else {
         console.error("Failed to add review:", response.data.message);
@@ -52,21 +51,23 @@ const Reviews = () => {
       <AddReviewForm onAddReview={handleAddReview} />
 
       {/* Display Reviews */}
-      {reviews.map((review) => (
-        <div className="review-item" key={review.id}>
-          <h3>
-            Song Title: "{review.title}" by {review.artist}
-          </h3>
-          <p>
-            <strong>Reviewer:</strong> {review.reviewer} -{" "}
-            {"★".repeat(review.rating)}
-            {"☆".repeat(5 - review.rating)}
-          </p>
-          <p>
-            <strong>Review:</strong> {review.review}
-          </p>
-        </div>
-      ))}
+      <div>
+        {reviews.map((review) => (
+          <div className="review-item" key={review.id}>
+            <h3>
+              Song Title: "{review.title}" by {review.artist}
+            </h3>
+            <p>
+              <strong>Reviewer:</strong> {review.reviewer} -{" "}
+              {"★".repeat(review.rating)}
+              {"☆".repeat(5 - review.rating)}
+            </p>
+            <p>
+              <strong>Review:</strong> {review.review}
+            </p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
