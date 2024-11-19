@@ -22,7 +22,6 @@ const App = () => {
           <Route path="artists" element={<Artists />} />
           <Route path="music" element={<Music />} />
           <Route path="reviews" element={<Reviews />} />
-          <Route path="about" element={<About />} />
           <Route path="contact" element={<ContactForm />} />
         </Route>
       </Routes>

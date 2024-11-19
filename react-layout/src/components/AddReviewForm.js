@@ -21,7 +21,6 @@ const AddReviewForm = ({ onAddReview }) => {
     setFormStatus(null);
     setErrors({});
 
-    // Validate form inputs
     if (!formData.title || formData.title.length < 2) {
       setErrors((prev) => ({
         ...prev,
@@ -39,7 +38,6 @@ const AddReviewForm = ({ onAddReview }) => {
     }
 
     try {
-      // Ensure JSON is correctly formatted
       const response = await fetch(
         "https://react-musichub-backend.onrender.com/reviews",
         {
@@ -58,7 +56,9 @@ const AddReviewForm = ({ onAddReview }) => {
       const result = await response.json();
 
       if (response.ok) {
+        // AddReview updates state only after successful post confirmation
         onAddReview(result);
+
         setFormData({
           title: "",
           artist: "",

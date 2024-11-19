@@ -101,7 +101,7 @@ const Reviews = () => {
     []
   );
 
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState([...originalReviews]);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -109,15 +109,22 @@ const Reviews = () => {
         const response = await axios.get(
           "https://react-musichub-backend.onrender.com/reviews"
         );
-        // Combine originalReviews with fetched reviews only once on initial load
-        setReviews([...originalReviews, ...response.data]);
+
+        // Set reviews only with fetched data, without duplicating originalReviews
+        setReviews((prevReviews) => {
+          const existingIds = new Set(prevReviews.map((review) => review.id));
+          const newFetchedReviews = response.data.filter(
+            (review) => !existingIds.has(review.id)
+          );
+          return [...prevReviews, ...newFetchedReviews];
+        });
       } catch (err) {
         console.error("Error fetching reviews:", err);
       }
     };
 
     fetchReviews();
-  }, [originalReviews]);
+  }, []);
 
   // adding a review
   const handleAddReview = async (newReview) => {
