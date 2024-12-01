@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/react-musichub/static/css/main.013ef3f8.css",
-    "main.js": "/react-musichub/static/js/main.2e83cd00.js",
+    "main.css": "/react-musichub/static/css/main.b20f9b7f.css",
+    "main.js": "/react-musichub/static/js/main.cf7f754b.js",
     "index.html": "/react-musichub/index.html",
-    "main.013ef3f8.css.map": "/react-musichub/static/css/main.013ef3f8.css.map",
-    "main.2e83cd00.js.map": "/react-musichub/static/js/main.2e83cd00.js.map"
+    "main.b20f9b7f.css.map": "/react-musichub/static/css/main.b20f9b7f.css.map",
+    "main.cf7f754b.js.map": "/react-musichub/static/js/main.cf7f754b.js.map"
   },
   "entrypoints": [
-    "static/css/main.013ef3f8.css",
-    "static/js/main.2e83cd00.js"
+    "static/css/main.b20f9b7f.css",
+    "static/js/main.cf7f754b.js"
   ]
 }
