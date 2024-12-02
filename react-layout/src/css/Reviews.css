@@ -1,108 +1,100 @@
 /* Reviews.css */
 .reviews-page {
-    padding: 32px;
-    max-width: 900px;
-    margin: auto;
+  padding: 32px;
+  max-width: 900px;
+  margin: auto;
 }
 
 .reviews-page h2 {
-    text-align: center;
-    color: var(--text-heading);
-    margin-bottom: 24px;
+  text-align: center;
+  color: var(--text-heading);
+  margin-bottom: 24px;
 }
 
 .review-item {
-    background-color: var(--header-background);
-    padding: 24px;
-    border-radius: 10px;
-    margin-bottom: 20px;
+  background-color: var(--header-background);
+  padding: 24px;
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
 
 .review-item h3 {
-    color: var(--accent-color);
-    margin-bottom: 12px;
+  color: var(--accent-color);
+  margin-bottom: 12px;
 }
 
 .review-item p {
-    color: var(--text-color);
-    margin-bottom: 8px;
-    line-height: 1.5;
+  color: var(--text-color);
+  margin-bottom: 8px;
+  line-height: 1.5;
 }
 
 .review-item p strong {
-    color: var(--text-heading);
+  color: var(--text-heading);
 }
 
-/* Styling for the Edit Button */
-.edit-btn {
+/* More Specific Styling for Review Item Buttons */
+.review-item .edit-btn, .review-item .delete-btn {
   background-color: #007bff;
   color: white;
   border: none;
   padding: 8px 12px;
-  margin-right: 5px;
+  margin: 8px 5px 0 0;
   border-radius: 5px;
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.3s ease;
-}
-
-.edit-btn:hover {
-  background-color: #0056b3;
-}
-
-/* Delete Button */
-.delete-btn {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  margin-left: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-}
-
-.delete-btn:hover {
-  background-color: #c82333;
-}
-
-/* General Button Style */
-button {
   font-family: inherit;
   outline: none;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* More Specific Styles for Buttons within Review Items */
-.review-item .edit-btn {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  margin-right: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
+.review-item .delete-btn {
+  background-color: #dc3545;
 }
 
 .review-item .edit-btn:hover {
   background-color: #0056b3;
 }
 
-.review-item .delete-btn {
-  background-color: #dc3545;
+.review-item .delete-btn:hover {
+  background-color: #c82333;
+}
+
+/* Style for Save and Cancel Buttons within the Edit Form */
+.review-item form button {
+  background-color: #6c757d;
   color: white;
   border: none;
   padding: 8px 12px;
-  margin-left: 5px;
+  margin: 8px 5px 0 0;
   border-radius: 5px;
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.3s ease;
+  font-family: inherit;
+  outline: none;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.review-item .delete-btn:hover {
-  background-color: #c82333;
+.review-item form button:hover {
+  background-color: #5a6268;
+}
+
+/* Style for Form Inputs in Edit Mode */
+.review-item form input,
+.review-item form textarea {
+  width: calc(100% - 20px);
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+  font-family: inherit;
+}
+
+.review-item form input:focus,
+.review-item form textarea:focus {
+  border-color: #007bff;
+  outline: none;
 }
