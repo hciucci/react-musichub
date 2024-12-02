@@ -58,8 +58,10 @@ const Reviews = () => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
   
-    if (!editFormData.title || !editFormData.artist || !editFormData.reviewer || !editFormData.review || !editFormData.rating) {
-      alert("Please fill out all fields.");
+    console.log("Submitting edited data:", editFormData);
+  
+    if (!editFormData.title || !editFormData.artist || !editFormData.reviewer || !editFormData.review || typeof editFormData.rating !== 'number') {
+      alert("Please fill out all fields correctly.");
       return;
     }
   
