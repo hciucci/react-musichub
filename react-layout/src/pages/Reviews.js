@@ -4,25 +4,23 @@ import AddReviewForm from "../components/AddReviewForm";
 import "../css/Reviews.css";
 
 const Reviews = () => {
-  const [reviews, setReviews] = useState([]); // Stores all reviews
-  const [editMode, setEditMode] = useState(null); // Tracks the review being edited
-  const [editFormData, setEditFormData] = useState({}); // Stores the data of the review being edited
+  const [reviews, setReviews] = useState([]);
+  const [editMode, setEditMode] = useState(null); // Tracks the ID of the review in edit mode
+  const [editFormData, setEditFormData] = useState({}); // Holds the data being edited
 
-  // Fetch reviews on initial load
   useEffect(() => {
     (async () => {
       try {
         const response = await axios.get(
           "https://react-musichub-backend.onrender.com/reviews"
         );
-        setReviews(response.data); // Load reviews into state
+        setReviews(response.data);
       } catch (error) {
         console.error("Error fetching reviews:", error);
       }
     })();
   }, []);
 
-  // Add a new review
   const handleAddReview = async (newReview) => {
     try {
       const sanitizedReview = {
@@ -42,7 +40,7 @@ const Reviews = () => {
       );
 
       if (response.status === 201) {
-        setReviews((prevReviews) => [...prevReviews, response.data]); // Add new review to state
+        setReviews((prevReviews) => [...prevReviews, response.data]);
       } else {
         console.error("Failed to add review:", response.data.message);
       }
@@ -51,13 +49,11 @@ const Reviews = () => {
     }
   };
 
-  // Handle clicking "Edit" button
   const handleEditClick = (review) => {
-    setEditMode(review._id); // Set editMode to the ID of the review being edited
-    setEditFormData(review); // Pre-fill the edit form with existing review data
+    setEditMode(review._id); // Set the ID of the review being edited
+    setEditFormData(review); // Pre-fill the form with existing data
   };
 
-  // Submit edits to the server
   const handleEditSubmit = async (e) => {
     e.preventDefault();
 
@@ -78,11 +74,11 @@ const Reviews = () => {
       if (response.status === 200) {
         setReviews((prevReviews) =>
           prevReviews.map((review) =>
-            review._id === editFormData._id ? response.data : review // Update the edited review in state
+            review._id === editFormData._id ? response.data : review
           )
         );
-        setEditMode(null); // Exit edit mode
-        setEditFormData({}); // Clear the edit form
+        setEditMode(null);
+        setEditFormData({});
       } else {
         console.error("Failed to update review:", response.data.message);
       }
@@ -91,16 +87,15 @@ const Reviews = () => {
     }
   };
 
-  // Delete a review
-  const handleDeleteClick = async (_id) => {
+  const handleDeleteClick = async (reviewId) => {
     try {
       const response = await axios.delete(
-        `https://react-musichub-backend.onrender.com/reviews/${_id}`
+        `https://react-musichub-backend.onrender.com/reviews/${reviewId}`
       );
 
       if (response.status === 200) {
         setReviews((prevReviews) =>
-          prevReviews.filter((review) => review._id !== _id) // Remove the deleted review from state
+          prevReviews.filter((review) => review._id !== reviewId)
         );
       } else {
         console.error("Failed to delete review:", response.data.message);
@@ -110,7 +105,6 @@ const Reviews = () => {
     }
   };
 
-  // Handle input changes in the edit form
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditFormData((prevData) => ({
@@ -129,7 +123,6 @@ const Reviews = () => {
         {reviews.map((review) => (
           <div className="review-item" key={review._id}>
             {editMode === review._id ? (
-              // Edit form for the specific review being edited
               <form onSubmit={handleEditSubmit}>
                 <input
                   type="text"
@@ -168,7 +161,6 @@ const Reviews = () => {
                 </button>
               </form>
             ) : (
-              // Display the review
               <>
                 <h3>
                   Song Title: "{review.title}" by {review.artist}
@@ -184,10 +176,7 @@ const Reviews = () => {
                 <button className="edit-btn" onClick={() => handleEditClick(review)}>
                   Edit
                 </button>
-                <button
-                  className="delete-btn"
-                  onClick={() => handleDeleteClick(review._id)}
-                >
+                <button className="delete-btn" onClick={() => handleDeleteClick(review._id)}>
                   Delete
                 </button>
               </>
