@@ -4,23 +4,25 @@ import AddReviewForm from "../components/AddReviewForm";
 import "../css/Reviews.css";
 
 const Reviews = () => {
-  const [reviews, setReviews] = useState([]);
-  const [editMode, setEditMode] = useState(null);
-  const [editFormData, setEditFormData] = useState({});
+  const [reviews, setReviews] = useState([]); // Stores all reviews
+  const [editMode, setEditMode] = useState(null); // Tracks the review being edited
+  const [editFormData, setEditFormData] = useState({}); // Stores the data of the review being edited
 
+  // Fetch reviews on initial load
   useEffect(() => {
     (async () => {
       try {
         const response = await axios.get(
           "https://react-musichub-backend.onrender.com/reviews"
         );
-        setReviews(response.data);
+        setReviews(response.data); // Load reviews into state
       } catch (error) {
         console.error("Error fetching reviews:", error);
       }
     })();
   }, []);
 
+  // Add a new review
   const handleAddReview = async (newReview) => {
     try {
       const sanitizedReview = {
@@ -40,7 +42,7 @@ const Reviews = () => {
       );
 
       if (response.status === 201) {
-        setReviews((prevReviews) => [...prevReviews, response.data]);
+        setReviews((prevReviews) => [...prevReviews, response.data]); // Add new review to state
       } else {
         console.error("Failed to add review:", response.data.message);
       }
@@ -49,21 +51,21 @@ const Reviews = () => {
     }
   };
 
+  // Handle clicking "Edit" button
   const handleEditClick = (review) => {
-    console.log("Editing review:", review);
-    setEditMode(review._id);
-    setEditFormData(review);
+    setEditMode(review._id); // Set editMode to the ID of the review being edited
+    setEditFormData(review); // Pre-fill the edit form with existing review data
   };
 
+  // Submit edits to the server
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitting edited data:", editFormData);
-  
+
     if (!editFormData.title || !editFormData.artist || !editFormData.reviewer || !editFormData.review || typeof editFormData.rating !== "number") {
       alert("Please fill out all fields correctly.");
       return;
     }
-  
+
     try {
       const response = await axios.put(
         `https://react-musichub-backend.onrender.com/reviews/${editFormData._id}`,
@@ -72,16 +74,15 @@ const Reviews = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-  
+
       if (response.status === 200) {
-        console.log("Successfully updated review:", response.data);
         setReviews((prevReviews) =>
           prevReviews.map((review) =>
-            review._id === editFormData._id ? response.data : review
+            review._id === editFormData._id ? response.data : review // Update the edited review in state
           )
         );
-        setEditMode(null);
-        setEditFormData({});
+        setEditMode(null); // Exit edit mode
+        setEditFormData({}); // Clear the edit form
       } else {
         console.error("Failed to update review:", response.data.message);
       }
@@ -90,20 +91,16 @@ const Reviews = () => {
     }
   };
 
-  const handleDeleteClick = async (id) => {
-    if (!id) {
-      console.error("Error: ID is undefined or null.");
-      return;
-    }
-  
+  // Delete a review
+  const handleDeleteClick = async (_id) => {
     try {
       const response = await axios.delete(
-        `https://react-musichub-backend.onrender.com/reviews/${id}`
+        `https://react-musichub-backend.onrender.com/reviews/${_id}`
       );
-  
+
       if (response.status === 200) {
         setReviews((prevReviews) =>
-          prevReviews.filter((review) => review.id !== id)
+          prevReviews.filter((review) => review._id !== _id) // Remove the deleted review from state
         );
       } else {
         console.error("Failed to delete review:", response.data.message);
@@ -111,11 +108,11 @@ const Reviews = () => {
     } catch (err) {
       console.error("Error deleting review:", err);
     }
-  };  
+  };
 
+  // Handle input changes in the edit form
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log("Input change:", { name, value });
     setEditFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -130,39 +127,39 @@ const Reviews = () => {
 
       <div>
         {reviews.map((review) => (
-          <div className="review-item" key={review.id}>
-            {editMode === review.id ? (
-              // Display edit form for the selected review
+          <div className="review-item" key={review._id}>
+            {editMode === review._id ? (
+              // Edit form for the specific review being edited
               <form onSubmit={handleEditSubmit}>
                 <input
                   type="text"
                   name="title"
-                  value={editFormData.title || ""}
+                  value={editFormData.title}
                   onChange={handleInputChange}
                 />
                 <input
                   type="text"
                   name="artist"
-                  value={editFormData.artist || ""}
+                  value={editFormData.artist}
                   onChange={handleInputChange}
                 />
                 <input
                   type="text"
                   name="reviewer"
-                  value={editFormData.reviewer || ""}
+                  value={editFormData.reviewer}
                   onChange={handleInputChange}
                 />
                 <input
                   type="number"
                   name="rating"
-                  value={editFormData.rating || ""}
+                  value={editFormData.rating}
                   min="1"
                   max="5"
                   onChange={handleInputChange}
                 />
                 <textarea
                   name="review"
-                  value={editFormData.review || ""}
+                  value={editFormData.review}
                   onChange={handleInputChange}
                 ></textarea>
                 <button type="submit">Save</button>
@@ -184,15 +181,12 @@ const Reviews = () => {
                 <p>
                   <strong>Review:</strong> {review.review}
                 </p>
-                <button
-                  className="edit-btn"
-                  onClick={() => handleEditClick(review)}
-                >
+                <button className="edit-btn" onClick={() => handleEditClick(review)}>
                   Edit
                 </button>
                 <button
                   className="delete-btn"
-                  onClick={() => handleDeleteClick(review.id)}
+                  onClick={() => handleDeleteClick(review._id)}
                 >
                   Delete
                 </button>
