@@ -1,4 +1,3 @@
-// Reviews.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AddReviewForm from "../components/AddReviewForm";
@@ -6,10 +5,9 @@ import "../css/Reviews.css";
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
-  const [editMode, setEditMode] = useState(null);
+  const [editMode, setEditMode] = useState(null); // Stores the ID of the review being edited
   const [editFormData, setEditFormData] = useState({});
 
-  // Fetch reviews on component mount
   useEffect(() => {
     (async () => {
       try {
@@ -23,7 +21,6 @@ const Reviews = () => {
     })();
   }, []);
 
-  // Handle adding a new review
   const handleAddReview = async (newReview) => {
     try {
       const sanitizedReview = {
@@ -52,26 +49,29 @@ const Reviews = () => {
     }
   };
 
-  // Handle clicking the edit button
   const handleEditClick = (review) => {
-    console.log("Editing review:", review);
-    setEditMode(review._id);
-    setEditFormData(review);
+    setEditMode(review.id); // Set the edit mode to the ID of the selected review
+    setEditFormData({ ...review }); // Populate the form with the selected review's data
   };
 
-  // Handle submitting the edit form
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     console.log("Submitting edited data:", editFormData);
 
-    if (!editFormData.title || !editFormData.artist || !editFormData.reviewer || !editFormData.review || typeof editFormData.rating !== "number") {
+    if (
+      !editFormData.title ||
+      !editFormData.artist ||
+      !editFormData.reviewer ||
+      !editFormData.review ||
+      typeof editFormData.rating !== "number"
+    ) {
       alert("Please fill out all fields correctly.");
       return;
     }
 
     try {
       const response = await axios.put(
-        `https://react-musichub-backend.onrender.com/reviews/${editFormData._id}`,
+        `https://react-musichub-backend.onrender.com/reviews/${editFormData.id}`,
         editFormData,
         {
           headers: { "Content-Type": "application/json" },
@@ -81,11 +81,11 @@ const Reviews = () => {
       if (response.status === 200) {
         setReviews((prevReviews) =>
           prevReviews.map((review) =>
-            review._id === editFormData._id ? response.data : review
+            review.id === editFormData.id ? response.data : review
           )
         );
-        setEditMode(null);
-        setEditFormData({});
+        setEditMode(null); // Exit edit mode
+        setEditFormData({}); // Clear the form data
       } else {
         console.error("Failed to update review:", response.data.message);
       }
@@ -94,15 +94,20 @@ const Reviews = () => {
     }
   };
 
-  const handleDeleteClick = async (_id) => {
+  const handleDeleteClick = async (id) => {
+    if (!id) {
+      console.error("Error: ID is undefined or null.");
+      return;
+    }
+  
     try {
       const response = await axios.delete(
-        `https://react-musichub-backend.onrender.com/reviews/${_id}`
+        `https://react-musichub-backend.onrender.com/reviews/${id}`
       );
-
+  
       if (response.status === 200) {
         setReviews((prevReviews) =>
-          prevReviews.filter((review) => review._id !== _id)
+          prevReviews.filter((review) => review.id !== id)
         );
       } else {
         console.error("Failed to delete review:", response.data.message);
@@ -128,8 +133,9 @@ const Reviews = () => {
 
       <div>
         {reviews.map((review) => (
-          <div className="review-item" key={review._id}>
-            {editMode === review._id ? (
+          <div className="review-item" key={review.id}>
+            {editMode === review.id ? (
+              // Display edit form for the selected review
               <form onSubmit={handleEditSubmit}>
                 <input
                   type="text"
@@ -168,7 +174,7 @@ const Reviews = () => {
                 </button>
               </form>
             ) : (
-              // Display the review data
+              // Display the review
               <>
                 <h3>
                   Song Title: "{review.title}" by {review.artist}
@@ -189,7 +195,7 @@ const Reviews = () => {
                 </button>
                 <button
                   className="delete-btn"
-                  onClick={() => handleDeleteClick(review._id)}
+                  onClick={() => handleDeleteClick(review.id)}
                 >
                   Delete
                 </button>
