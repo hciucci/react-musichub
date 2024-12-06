@@ -9,6 +9,7 @@ const Reviews = () => {
   const [editMode, setEditMode] = useState(null);
   const [editFormData, setEditFormData] = useState({});
 
+  // Fetch reviews on component mount
   useEffect(() => {
     (async () => {
       try {
@@ -22,6 +23,7 @@ const Reviews = () => {
     })();
   }, []);
 
+  // Handle adding a new review
   const handleAddReview = async (newReview) => {
     try {
       const sanitizedReview = {
@@ -50,21 +52,23 @@ const Reviews = () => {
     }
   };
 
+  // Handle clicking the edit button
   const handleEditClick = (review) => {
     console.log("Editing review:", review);
     setEditMode(review._id);
     setEditFormData(review);
   };
 
+  // Handle submitting the edit form
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     console.log("Submitting edited data:", editFormData);
-  
-    if (!editFormData.title || !editFormData.artist || !editFormData.reviewer || !editFormData.review || typeof editFormData.rating !== 'number') {
+
+    if (!editFormData.title || !editFormData.artist || !editFormData.reviewer || !editFormData.review || typeof editFormData.rating !== "number") {
       alert("Please fill out all fields correctly.");
       return;
     }
-  
+
     try {
       const response = await axios.put(
         `https://react-musichub-backend.onrender.com/reviews/${editFormData._id}`,
@@ -73,7 +77,7 @@ const Reviews = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-  
+
       if (response.status === 200) {
         setReviews((prevReviews) =>
           prevReviews.map((review) =>
@@ -88,7 +92,7 @@ const Reviews = () => {
     } catch (err) {
       console.error("Error updating review:", err);
     }
-  };  
+  };
 
   const handleDeleteClick = async (_id) => {
     try {
@@ -126,37 +130,36 @@ const Reviews = () => {
         {reviews.map((review) => (
           <div className="review-item" key={review._id}>
             {editMode === review._id ? (
-              // edits form
               <form onSubmit={handleEditSubmit}>
                 <input
                   type="text"
                   name="title"
-                  value={editFormData.title}
+                  value={editFormData.title || ""}
                   onChange={handleInputChange}
                 />
                 <input
                   type="text"
                   name="artist"
-                  value={editFormData.artist}
+                  value={editFormData.artist || ""}
                   onChange={handleInputChange}
                 />
                 <input
                   type="text"
                   name="reviewer"
-                  value={editFormData.reviewer}
+                  value={editFormData.reviewer || ""}
                   onChange={handleInputChange}
                 />
                 <input
                   type="number"
                   name="rating"
-                  value={editFormData.rating}
+                  value={editFormData.rating || ""}
                   min="1"
                   max="5"
                   onChange={handleInputChange}
                 />
                 <textarea
                   name="review"
-                  value={editFormData.review}
+                  value={editFormData.review || ""}
                   onChange={handleInputChange}
                 ></textarea>
                 <button type="submit">Save</button>
@@ -165,7 +168,7 @@ const Reviews = () => {
                 </button>
               </form>
             ) : (
-              // displays review
+              // Display the review data
               <>
                 <h3>
                   Song Title: "{review.title}" by {review.artist}
@@ -178,8 +181,16 @@ const Reviews = () => {
                 <p>
                   <strong>Review:</strong> {review.review}
                 </p>
-                <button className="edit-btn" onClick={() => handleEditClick(review)}>Edit</button>
-                <button className="delete-btn" onClick={() => handleDeleteClick(review._id)}> {/* Use _id */}
+                <button
+                  className="edit-btn"
+                  onClick={() => handleEditClick(review)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="delete-btn"
+                  onClick={() => handleDeleteClick(review._id)}
+                >
                   Delete
                 </button>
               </>
