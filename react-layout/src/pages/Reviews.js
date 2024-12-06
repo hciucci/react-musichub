@@ -5,7 +5,7 @@ import "../css/Reviews.css";
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
-  const [editMode, setEditMode] = useState(null); // Stores the ID of the review being edited
+  const [editMode, setEditMode] = useState(null);
   const [editFormData, setEditFormData] = useState({});
 
   useEffect(() => {
@@ -50,42 +50,38 @@ const Reviews = () => {
   };
 
   const handleEditClick = (review) => {
-    setEditMode(review.id); // Set the edit mode to the ID of the selected review
-    setEditFormData({ ...review }); // Populate the form with the selected review's data
+    console.log("Editing review:", review);
+    setEditMode(review._id);
+    setEditFormData(review);
   };
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     console.log("Submitting edited data:", editFormData);
-
-    if (
-      !editFormData.title ||
-      !editFormData.artist ||
-      !editFormData.reviewer ||
-      !editFormData.review ||
-      typeof editFormData.rating !== "number"
-    ) {
+  
+    if (!editFormData.title || !editFormData.artist || !editFormData.reviewer || !editFormData.review || typeof editFormData.rating !== "number") {
       alert("Please fill out all fields correctly.");
       return;
     }
-
+  
     try {
       const response = await axios.put(
-        `https://react-musichub-backend.onrender.com/reviews/${editFormData.id}`,
+        `https://react-musichub-backend.onrender.com/reviews/${editFormData._id}`,
         editFormData,
         {
           headers: { "Content-Type": "application/json" },
         }
       );
-
+  
       if (response.status === 200) {
+        console.log("Successfully updated review:", response.data);
         setReviews((prevReviews) =>
           prevReviews.map((review) =>
-            review.id === editFormData.id ? response.data : review
+            review._id === editFormData._id ? response.data : review
           )
         );
-        setEditMode(null); // Exit edit mode
-        setEditFormData({}); // Clear the form data
+        setEditMode(null);
+        setEditFormData({});
       } else {
         console.error("Failed to update review:", response.data.message);
       }
@@ -115,10 +111,11 @@ const Reviews = () => {
     } catch (err) {
       console.error("Error deleting review:", err);
     }
-  };
+  };  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log("Input change:", { name, value });
     setEditFormData((prevData) => ({
       ...prevData,
       [name]: value,
