@@ -52,7 +52,7 @@ const Reviews = () => {
 
   const handleEditClick = (review) => {
     console.log("Editing review:", review);
-    setEditMode(review._id); // Use _id for MongoDB
+    setEditMode(review._id);
     setEditFormData(review);
   };
 
@@ -67,7 +67,7 @@ const Reviews = () => {
   
     try {
       const response = await axios.put(
-        `https://react-musichub-backend.onrender.com/reviews/${editFormData._id}`, // Use _id here
+        `https://react-musichub-backend.onrender.com/reviews/${editFormData._id}`,
         editFormData,
         {
           headers: { "Content-Type": "application/json" },
@@ -77,7 +77,7 @@ const Reviews = () => {
       if (response.status === 200) {
         setReviews((prevReviews) =>
           prevReviews.map((review) =>
-            review._id === editFormData._id ? response.data : review // Match by _id
+            review._id === editFormData._id ? response.data : review
           )
         );
         setEditMode(null);
@@ -90,15 +90,15 @@ const Reviews = () => {
     }
   };  
 
-  const handleDeleteClick = async (_id) => { // Use _id for delete
+  const handleDeleteClick = async (_id) => {
     try {
       const response = await axios.delete(
-        `https://react-musichub-backend.onrender.com/reviews/${_id}` // Use _id here
+        `https://react-musichub-backend.onrender.com/reviews/${_id}`
       );
 
       if (response.status === 200) {
         setReviews((prevReviews) =>
-          prevReviews.filter((review) => review._id !== _id) // Match by _id
+          prevReviews.filter((review) => review._id !== _id)
         );
       } else {
         console.error("Failed to delete review:", response.data.message);
@@ -124,8 +124,8 @@ const Reviews = () => {
 
       <div>
         {reviews.map((review) => (
-          <div className="review-item" key={review._id}> {/* Use _id for the key */}
-            {editMode === review._id ? ( // Match editMode with _id
+          <div className="review-item" key={review._id}>
+            {editMode === review._id ? (
               // edits form
               <form onSubmit={handleEditSubmit}>
                 <input
