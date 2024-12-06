@@ -51,13 +51,13 @@ const Reviews = () => {
   };
 
   const handleEditClick = (review) => {
-    setEditMode(review.id);
+    console.log("Editing review:", review);
+    setEditMode(review._id); // Use _id for MongoDB
     setEditFormData(review);
   };
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-  
     console.log("Submitting edited data:", editFormData);
   
     if (!editFormData.title || !editFormData.artist || !editFormData.reviewer || !editFormData.review || typeof editFormData.rating !== 'number') {
@@ -67,7 +67,7 @@ const Reviews = () => {
   
     try {
       const response = await axios.put(
-        `https://react-musichub-backend.onrender.com/reviews/${editFormData.id}`,
+        `https://react-musichub-backend.onrender.com/reviews/${editFormData._id}`, // Use _id here
         editFormData,
         {
           headers: { "Content-Type": "application/json" },
@@ -77,7 +77,7 @@ const Reviews = () => {
       if (response.status === 200) {
         setReviews((prevReviews) =>
           prevReviews.map((review) =>
-            review.id === editFormData.id ? response.data : review
+            review._id === editFormData._id ? response.data : review // Match by _id
           )
         );
         setEditMode(null);
@@ -90,15 +90,15 @@ const Reviews = () => {
     }
   };  
 
-  const handleDeleteClick = async (reviewId) => {
+  const handleDeleteClick = async (_id) => { // Use _id for delete
     try {
       const response = await axios.delete(
-        `https://react-musichub-backend.onrender.com/reviews/${reviewId}`
+        `https://react-musichub-backend.onrender.com/reviews/${_id}` // Use _id here
       );
 
       if (response.status === 200) {
         setReviews((prevReviews) =>
-          prevReviews.filter((review) => review.id !== reviewId)
+          prevReviews.filter((review) => review._id !== _id) // Match by _id
         );
       } else {
         console.error("Failed to delete review:", response.data.message);
@@ -124,8 +124,8 @@ const Reviews = () => {
 
       <div>
         {reviews.map((review) => (
-          <div className="review-item" key={review.id}>
-            {editMode === review.id ? (
+          <div className="review-item" key={review._id}> {/* Use _id for the key */}
+            {editMode === review._id ? ( // Match editMode with _id
               // edits form
               <form onSubmit={handleEditSubmit}>
                 <input
@@ -179,7 +179,7 @@ const Reviews = () => {
                   <strong>Review:</strong> {review.review}
                 </p>
                 <button className="edit-btn" onClick={() => handleEditClick(review)}>Edit</button>
-                <button className="delete-btn" onClick={() => handleDeleteClick(review.id)}>
+                <button className="delete-btn" onClick={() => handleDeleteClick(review._id)}> {/* Use _id */}
                   Delete
                 </button>
               </>
