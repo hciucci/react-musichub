@@ -50,37 +50,34 @@ const Reviews = () => {
   };
 
   const handleEditClick = (review) => {
-    setEditMode(review._id);
-    setEditFormData(review);
+    setEditMode(review._id); // Sets the specific review to edit
+    setEditFormData(review); // Loads the data for the review being edited
   };
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      const updatedData = {
-        title: editFormData.title,
-        artist: editFormData.artist,
-        reviewer: editFormData.reviewer,
-        rating: editFormData.rating,
-        review: editFormData.review,
-        picture: editFormData.picture,
-      };
-
       const response = await axios.put(
         `https://react-musichub-backend.onrender.com/reviews/${editFormData._id}`,
-        updatedData,
+        {
+          title: editFormData.title,
+          artist: editFormData.artist,
+          reviewer: editFormData.reviewer,
+          rating: editFormData.rating,
+          review: editFormData.review,
+          picture: editFormData.picture,
+        },
         {
           headers: { "Content-Type": "application/json" },
         }
       );
-
       if (response.status === 200) {
         setReviews((prevReviews) =>
           prevReviews.map((review) =>
             review._id === editFormData._id ? response.data : review
           )
         );
-        setEditMode(null);
+        setEditMode(null); // Exits edit mode
         setEditFormData({});
       }
     } catch (err) {
@@ -89,7 +86,7 @@ const Reviews = () => {
   };
 
   const handleCancelEdit = () => {
-    setEditMode(null);
+    setEditMode(null); // Exits edit mode
     setEditFormData({});
   };
 
@@ -133,32 +130,32 @@ const Reviews = () => {
                 <input
                   type="text"
                   name="title"
-                  value={editFormData.title || ""}
+                  value={editFormData.title}
                   onChange={handleInputChange}
                 />
                 <input
                   type="text"
                   name="artist"
-                  value={editFormData.artist || ""}
+                  value={editFormData.artist}
                   onChange={handleInputChange}
                 />
                 <input
                   type="text"
                   name="reviewer"
-                  value={editFormData.reviewer || ""}
+                  value={editFormData.reviewer}
                   onChange={handleInputChange}
                 />
                 <input
                   type="number"
                   name="rating"
-                  value={editFormData.rating || ""}
+                  value={editFormData.rating}
                   min="1"
                   max="5"
                   onChange={handleInputChange}
                 />
                 <textarea
                   name="review"
-                  value={editFormData.review || ""}
+                  value={editFormData.review}
                   onChange={handleInputChange}
                 ></textarea>
                 <button type="submit">Save</button>
@@ -179,10 +176,16 @@ const Reviews = () => {
                 <p>
                   <strong>Review:</strong> {review.review}
                 </p>
-                <button className="edit-btn" onClick={() => handleEditClick(review)}>
+                <button
+                  className="edit-btn"
+                  onClick={() => handleEditClick(review)}
+                >
                   Edit
                 </button>
-                <button className="delete-btn" onClick={() => handleDeleteClick(review._id)}>
+                <button
+                  className="delete-btn"
+                  onClick={() => handleDeleteClick(review._id)}
+                >
                   Delete
                 </button>
               </>
