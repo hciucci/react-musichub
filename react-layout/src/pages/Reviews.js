@@ -5,7 +5,7 @@ import "../css/Reviews.css";
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
-  const [editMode, setEditMode] = useState(null);
+  const [editMode, setEditMode] = useState(false);
   const [editFormData, setEditFormData] = useState({});
 
   // fetch all reviews from the backend on component mount
@@ -15,7 +15,6 @@ const Reviews = () => {
         const response = await axios.get(
           "https://react-musichub-backend.onrender.com/reviews"
         );
-        console.log("Fetched reviews:", response.data); // Debug log
         setReviews(response.data);
       } catch (error) {
         console.error("Error fetching reviews:", error);
@@ -54,7 +53,7 @@ const Reviews = () => {
 
   // handle clicking the edit button
   const handleEditClick = (review) => {
-    setEditMode(review._id);
+    setEditMode(true);
     setEditFormData(review);
   };
 
@@ -69,6 +68,7 @@ const Reviews = () => {
         rating: editFormData.rating,
         review: editFormData.review,
       };
+
       const response = await axios.put(
         `https://react-musichub-backend.onrender.com/reviews/${editFormData._id}`,
         payload,
@@ -76,23 +76,24 @@ const Reviews = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
+
       if (response.status === 200) {
         setReviews((prevReviews) =>
           prevReviews.map((review) =>
             review._id === editFormData._id ? response.data : review
           )
         );
-        setEditMode(null);
+        setEditMode(false);
         setEditFormData({});
       }
     } catch (err) {
       console.error("Error updating review:", err);
     }
-};
+  };
 
   // handle canceling the edit
   const handleCancelEdit = () => {
-    setEditMode(null);
+    setEditMode(false);
     setEditFormData({});
   };
 
@@ -133,7 +134,7 @@ const Reviews = () => {
       <div>
         {reviews.map((review) => (
           <div className="review-item" key={review._id}>
-            {editMode === review._id ? (
+            {editMode && editFormData._id === review._id ? (
               <form onSubmit={handleEditSubmit}>
                 <input
                   type="text"
