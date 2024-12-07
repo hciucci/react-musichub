@@ -57,20 +57,23 @@ const Reviews = () => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
+      const updatedData = {
+        title: editFormData.title,
+        artist: editFormData.artist,
+        reviewer: editFormData.reviewer,
+        rating: editFormData.rating,
+        review: editFormData.review,
+        picture: editFormData.picture,
+      };
+
       const response = await axios.put(
         `https://react-musichub-backend.onrender.com/reviews/${editFormData._id}`,
-        {
-          title: editFormData.title,
-          artist: editFormData.artist,
-          reviewer: editFormData.reviewer,
-          rating: editFormData.rating,
-          review: editFormData.review,
-          picture: editFormData.picture,
-        },
+        updatedData,
         {
           headers: { "Content-Type": "application/json" },
         }
       );
+
       if (response.status === 200) {
         setReviews((prevReviews) =>
           prevReviews.map((review) =>
@@ -83,6 +86,11 @@ const Reviews = () => {
     } catch (err) {
       console.error("Error updating review:", err);
     }
+  };
+
+  const handleCancelEdit = () => {
+    setEditMode(null);
+    setEditFormData({});
   };
 
   const handleDeleteClick = async (reviewId) => {
@@ -125,36 +133,36 @@ const Reviews = () => {
                 <input
                   type="text"
                   name="title"
-                  value={editFormData.title}
+                  value={editFormData.title || ""}
                   onChange={handleInputChange}
                 />
                 <input
                   type="text"
                   name="artist"
-                  value={editFormData.artist}
+                  value={editFormData.artist || ""}
                   onChange={handleInputChange}
                 />
                 <input
                   type="text"
                   name="reviewer"
-                  value={editFormData.reviewer}
+                  value={editFormData.reviewer || ""}
                   onChange={handleInputChange}
                 />
                 <input
                   type="number"
                   name="rating"
-                  value={editFormData.rating}
+                  value={editFormData.rating || ""}
                   min="1"
                   max="5"
                   onChange={handleInputChange}
                 />
                 <textarea
                   name="review"
-                  value={editFormData.review}
+                  value={editFormData.review || ""}
                   onChange={handleInputChange}
                 ></textarea>
                 <button type="submit">Save</button>
-                <button type="button" onClick={() => setEditMode(null)}>
+                <button type="button" onClick={handleCancelEdit}>
                   Cancel
                 </button>
               </form>
