@@ -57,24 +57,24 @@ const Reviews = () => {
   // save the edited review
   const handleEditSubmit = async (e) => {
     e.preventDefault();
+    console.log("Submitting edited data:", editFormData);
     try {
       const response = await axios.put(
         `https://react-musichub-backend.onrender.com/reviews/${editFormData._id}`,
         editFormData,
         { headers: { "Content-Type": "application/json" } }
       );
-
       if (response.status === 200) {
         setReviews((prevReviews) =>
           prevReviews.map((review) =>
             review._id === editFormData._id ? response.data : review
           )
         );
-        setEditMode(null); // exit edit mode
+        setEditMode(null);
         setEditFormData({});
       }
     } catch (err) {
-      console.error("Error updating review:", err);
+      console.error("Error updating review:", err.response.data);
     }
   };
 
