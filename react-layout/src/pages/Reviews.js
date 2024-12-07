@@ -4,11 +4,11 @@ import AddReviewForm from "../components/AddReviewForm";
 import "../css/Reviews.css";
 
 const Reviews = () => {
-  const [reviews, setReviews] = useState([]); // list of reviews
-  const [editMode, setEditMode] = useState(false); // whether the edit form is visible
-  const [editFormData, setEditFormData] = useState({}); // data of the review being edited
+  const [reviews, setReviews] = useState([]);
+  const [editMode, setEditMode] = useState(null);
+  const [editFormData, setEditFormData] = useState({});
 
-  // fetch reviews from the backend
+  // fetch all reviews from the backend on component mount
   useEffect(() => {
     (async () => {
       try {
@@ -51,21 +51,16 @@ const Reviews = () => {
     }
   };
 
-  // handle showing the edit form
+  // handle clicking the edit button
   const handleEditClick = (review) => {
-    setEditMode(true);
-    setEditFormData(review); // populate the form with the selected review's data
+    setEditMode(review._id);
+    setEditFormData(review);
   };
 
-  // handle hiding the edit form
-  const handleCancelEdit = () => {
-    setEditMode(false);
-    setEditFormData({}); // clear the form data
-  };
-
-  // handle submitting the edited review
+  // handle saving the edited review
   const handleEditSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const response = await axios.put(
         `https://react-musichub-backend.onrender.com/reviews/${editFormData._id}`,
@@ -87,30 +82,30 @@ const Reviews = () => {
             review._id === editFormData._id ? response.data : review
           )
         );
-        handleCancelEdit();
-      } else {
-        console.error("Failed to update review:", response.data.message);
+        setEditMode(null);
+        setEditFormData({});
       }
     } catch (err) {
       console.error("Error updating review:", err);
     }
   };
 
-  // handle deleting a review
-  const handleDeleteClick = async (id) => {
-    if (!id) {
-      console.error("Error: Invalid ID passed to delete handler.");
-      return;
-    }
+  // handle canceling the edit
+  const handleCancelEdit = () => {
+    setEditMode(null);
+    setEditFormData({});
+  };
 
+  // handle deleting a review
+  const handleDeleteClick = async (reviewId) => {
     try {
       const response = await axios.delete(
-        `https://react-musichub-backend.onrender.com/reviews/${id}`
+        `https://react-musichub-backend.onrender.com/reviews/${reviewId}`
       );
 
       if (response.status === 200) {
         setReviews((prevReviews) =>
-          prevReviews.filter((review) => review._id !== id)
+          prevReviews.filter((review) => review._id !== reviewId)
         );
       } else {
         console.error("Failed to delete review:", response.data.message);
@@ -120,7 +115,7 @@ const Reviews = () => {
     }
   };
 
-  // handle input change in the edit form
+  // handle input changes in the edit form
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditFormData((prevData) => ({
@@ -133,83 +128,79 @@ const Reviews = () => {
     <div className="reviews-page">
       <h2>Song Reviews</h2>
 
-      {/* add review form */}
       <AddReviewForm onAddReview={handleAddReview} />
 
-      {/* display reviews */}
       <div>
         {reviews.map((review) => (
           <div className="review-item" key={review._id}>
-            <h3>
-              Song Title: "{review.title}" by {review.artist}
-            </h3>
-            <p>
-              <strong>Reviewer:</strong> {review.reviewer} -{" "}
-              {"★".repeat(review.rating)}
-              {"☆".repeat(5 - review.rating)}
-            </p>
-            <p>
-              <strong>Review:</strong> {review.review}
-            </p>
-            <button
-              className="edit-btn"
-              onClick={() => handleEditClick(review)}
-            >
-              Edit
-            </button>
-            <button
-              className="delete-btn"
-              onClick={() => handleDeleteClick(review._id)}
-            >
-              Delete
-            </button>
+            {editMode === review._id ? (
+              <form onSubmit={handleEditSubmit}>
+                <input
+                  type="text"
+                  name="title"
+                  value={editFormData.title}
+                  onChange={handleInputChange}
+                />
+                <input
+                  type="text"
+                  name="artist"
+                  value={editFormData.artist}
+                  onChange={handleInputChange}
+                />
+                <input
+                  type="text"
+                  name="reviewer"
+                  value={editFormData.reviewer}
+                  onChange={handleInputChange}
+                />
+                <input
+                  type="number"
+                  name="rating"
+                  value={editFormData.rating}
+                  min="1"
+                  max="5"
+                  onChange={handleInputChange}
+                />
+                <textarea
+                  name="review"
+                  value={editFormData.review}
+                  onChange={handleInputChange}
+                ></textarea>
+                <button type="submit">Save</button>
+                <button type="button" onClick={handleCancelEdit}>
+                  Cancel
+                </button>
+              </form>
+            ) : (
+              <>
+                <h3>
+                  Song Title: "{review.title}" by {review.artist}
+                </h3>
+                <p>
+                  <strong>Reviewer:</strong> {review.reviewer} -{" "}
+                  {"★".repeat(review.rating)}
+                  {"☆".repeat(5 - review.rating)}
+                </p>
+                <p>
+                  <strong>Review:</strong> {review.review}
+                </p>
+                <button
+                  className="edit-btn"
+                  onClick={() => handleEditClick(review)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="delete-btn"
+                  onClick={() => handleDeleteClick(review._id)}
+                >
+                  Delete
+                </button>
+              </>
+            )}
           </div>
         ))}
       </div>
-
-      {/* single edit form */}
-      {editMode && (
-        <div className="edit-form-container">
-          <h3>Edit Review</h3>
-          <form onSubmit={handleEditSubmit}>
-            <input
-              type="text"
-              name="title"
-              value={editFormData.title || ""}
-              onChange={handleInputChange}
-            />
-            <input
-              type="text"
-              name="artist"
-              value={editFormData.artist || ""}
-              onChange={handleInputChange}
-            />
-            <input
-              type="text"
-              name="reviewer"
-              value={editFormData.reviewer || ""}
-              onChange={handleInputChange}
-            />
-            <input
-              type="number"
-              name="rating"
-              value={editFormData.rating || ""}
-              min="1"
-              max="5"
-              onChange={handleInputChange}
-            />
-            <textarea
-              name="review"
-              value={editFormData.review || ""}
-              onChange={handleInputChange}
-            ></textarea>
-            <button type="submit">Save</button>
-            <button type="button" onClick={handleCancelEdit}>
-              Cancel
-            </button>
-          </form>
-        </div>
-      )}
     </div>
   );
 };
