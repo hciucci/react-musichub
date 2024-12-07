@@ -5,8 +5,8 @@ import "../css/Reviews.css";
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
-  const [editMode, setEditMode] = useState(null); // Tracks the ID of the review in edit mode
-  const [editFormData, setEditFormData] = useState({}); // Holds the data being edited
+  const [editMode, setEditMode] = useState(null);
+  const [editFormData, setEditFormData] = useState({});
 
   useEffect(() => {
     (async () => {
@@ -16,42 +16,29 @@ const Reviews = () => {
         );
         setReviews(response.data);
       } catch (error) {
-        console.error("Error fetching reviews:", error);
+        console.error("error fetching reviews:", error);
       }
     })();
   }, []);
 
   const handleAddReview = async (newReview) => {
     try {
-      const sanitizedReview = {
-        title: newReview.title,
-        artist: newReview.artist,
-        reviewer: newReview.reviewer,
-        rating: newReview.rating,
-        review: newReview.review,
-      };
-
       const response = await axios.post(
         "https://react-musichub-backend.onrender.com/reviews",
-        sanitizedReview,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
+        newReview,
+        { headers: { "Content-Type": "application/json" } }
       );
-
       if (response.status === 201) {
         setReviews((prevReviews) => [...prevReviews, response.data]);
-      } else {
-        console.error("Failed to add review:", response.data.message);
       }
     } catch (err) {
-      console.error("Error submitting review:", err);
+      console.error("error submitting review:", err);
     }
   };
 
   const handleEditClick = (review) => {
-    setEditMode(review._id); // Sets the specific review to edit
-    setEditFormData(review); // Loads the data for the review being edited
+    setEditMode(review._id);
+    setEditFormData(review);
   };
 
   const handleEditSubmit = async (e) => {
@@ -59,17 +46,8 @@ const Reviews = () => {
     try {
       const response = await axios.put(
         `https://react-musichub-backend.onrender.com/reviews/${editFormData._id}`,
-        {
-          title: editFormData.title,
-          artist: editFormData.artist,
-          reviewer: editFormData.reviewer,
-          rating: editFormData.rating,
-          review: editFormData.review,
-          picture: editFormData.picture,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
+        editFormData,
+        { headers: { "Content-Type": "application/json" } }
       );
       if (response.status === 200) {
         setReviews((prevReviews) =>
@@ -77,51 +55,38 @@ const Reviews = () => {
             review._id === editFormData._id ? response.data : review
           )
         );
-        setEditMode(null); // Exits edit mode
+        setEditMode(null);
         setEditFormData({});
       }
     } catch (err) {
-      console.error("Error updating review:", err);
+      console.error("error updating review:", err);
     }
   };
 
-  const handleCancelEdit = () => {
-    setEditMode(null); // Exits edit mode
-    setEditFormData({});
-  };
-
-  const handleDeleteClick = async (reviewId) => {
+  const handleDeleteClick = async (id) => {
     try {
       const response = await axios.delete(
-        `https://react-musichub-backend.onrender.com/reviews/${reviewId}`
+        `https://react-musichub-backend.onrender.com/reviews/${id}`
       );
-
       if (response.status === 200) {
         setReviews((prevReviews) =>
-          prevReviews.filter((review) => review._id !== reviewId)
+          prevReviews.filter((review) => review._id !== id)
         );
-      } else {
-        console.error("Failed to delete review:", response.data.message);
       }
     } catch (err) {
-      console.error("Error deleting review:", err);
+      console.error("error deleting review:", err);
     }
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setEditFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   return (
     <div className="reviews-page">
-      <h2>Song Reviews</h2>
-
+      <h2>song reviews</h2>
       <AddReviewForm onAddReview={handleAddReview} />
-
       <div>
         {reviews.map((review) => (
           <div className="review-item" key={review._id}>
@@ -158,35 +123,27 @@ const Reviews = () => {
                   value={editFormData.review}
                   onChange={handleInputChange}
                 ></textarea>
-                <button type="submit">Save</button>
-                <button type="button" onClick={handleCancelEdit}>
-                  Cancel
+                <button type="submit">save</button>
+                <button type="button" onClick={() => setEditMode(null)}>
+                  cancel
                 </button>
               </form>
             ) : (
               <>
                 <h3>
-                  Song Title: "{review.title}" by {review.artist}
+                  song title: "{review.title}" by {review.artist}
                 </h3>
                 <p>
-                  <strong>Reviewer:</strong> {review.reviewer} -{" "}
+                  <strong>reviewer:</strong> {review.reviewer} -{" "}
                   {"★".repeat(review.rating)}
                   {"☆".repeat(5 - review.rating)}
                 </p>
                 <p>
-                  <strong>Review:</strong> {review.review}
+                  <strong>review:</strong> {review.review}
                 </p>
-                <button
-                  className="edit-btn"
-                  onClick={() => handleEditClick(review)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="delete-btn"
-                  onClick={() => handleDeleteClick(review._id)}
-                >
-                  Delete
+                <button onClick={() => handleEditClick(review)}>edit</button>
+                <button onClick={() => handleDeleteClick(review._id)}>
+                  delete
                 </button>
               </>
             )}
