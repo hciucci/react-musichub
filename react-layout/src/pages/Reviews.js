@@ -15,6 +15,7 @@ const Reviews = () => {
         const response = await axios.get(
           "https://react-musichub-backend.onrender.com/reviews"
         );
+        console.log("Fetched reviews:", response.data); // Debug log
         setReviews(response.data);
       } catch (error) {
         console.error("Error fetching reviews:", error);
