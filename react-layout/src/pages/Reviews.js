@@ -64,17 +64,26 @@ const Reviews = () => {
   };
 
   const handleDeleteClick = async (id) => {
+    if (!id) {
+      console.error("Error: Invalid ID passed to delete handler.");
+      return;
+    }
+  
     try {
+      console.log("Deleting review with ID:", id); // debugging log
       const response = await axios.delete(
         `https://react-musichub-backend.onrender.com/reviews/${id}`
       );
+  
       if (response.status === 200) {
         setReviews((prevReviews) =>
           prevReviews.filter((review) => review._id !== id)
         );
+      } else {
+        console.error("Failed to delete review:", response.data.message);
       }
     } catch (err) {
-      console.error("error deleting review:", err);
+      console.error("Error deleting review:", err);
     }
   };
 
