@@ -50,27 +50,27 @@ const Reviews = () => {
   };
 
   const handleEditClick = (review) => {
-    setEditMode(review._id); // Set the ID of the review being edited
-    setEditFormData(review); // Pre-fill the form with existing data
+    setEditMode(review._id);
+    setEditFormData(review);
   };
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-
-    if (!editFormData.title || !editFormData.artist || !editFormData.reviewer || !editFormData.review || typeof editFormData.rating !== "number") {
-      alert("Please fill out all fields correctly.");
-      return;
-    }
-
     try {
       const response = await axios.put(
         `https://react-musichub-backend.onrender.com/reviews/${editFormData._id}`,
-        editFormData,
+        {
+          title: editFormData.title,
+          artist: editFormData.artist,
+          reviewer: editFormData.reviewer,
+          rating: editFormData.rating,
+          review: editFormData.review,
+          picture: editFormData.picture,
+        },
         {
           headers: { "Content-Type": "application/json" },
         }
       );
-
       if (response.status === 200) {
         setReviews((prevReviews) =>
           prevReviews.map((review) =>
@@ -79,8 +79,6 @@ const Reviews = () => {
         );
         setEditMode(null);
         setEditFormData({});
-      } else {
-        console.error("Failed to update review:", response.data.message);
       }
     } catch (err) {
       console.error("Error updating review:", err);
