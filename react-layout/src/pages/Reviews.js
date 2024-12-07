@@ -25,24 +25,30 @@ const Reviews = () => {
   // add a new review
   const handleAddReview = async (newReview) => {
     try {
+      console.log("Submitting new review:", newReview);
+  
       const response = await axios.post(
         "https://react-musichub-backend.onrender.com/reviews",
         newReview,
         { headers: { "Content-Type": "application/json" } }
       );
-
+  
       if (response.status === 201) {
+        console.log("Review successfully added:", response.data);
         setReviews((prevReviews) => [...prevReviews, response.data]);
+      } else {
+        console.error("Failed to add review:", response.data.message);
       }
     } catch (err) {
-      console.error("Error submitting review:", err);
+      console.error("Error submitting review:", err.response?.data || err.message);
     }
   };
+  
 
   // start editing a review
   const handleEditClick = (review) => {
-    setEditMode(review._id); // set the id of the review being edited
-    setEditFormData({ ...review }); // populate the form with the review's data
+    setEditMode(review._id);
+    setEditFormData({ ...review });
   };
 
   // handle form input changes for editing
